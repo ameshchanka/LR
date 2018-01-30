@@ -105,43 +105,40 @@ DROP TABLE IF EXISTS `lr`.`crm_users` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`crm_users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(255) NOT NULL,
-  `Password` VARCHAR(1023) NOT NULL,
-  `PhoneNumber` VARCHAR(255) NULL DEFAULT NULL,
-  `Email` VARCHAR(255) NOT NULL,
-  `EmailConfirmed` TINYINT(1) NOT NULL DEFAULT '0',
-  `Roleid` BIGINT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  `name` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(1023) NOT NULL,
+  `phoneNumber` VARCHAR(255) NULL DEFAULT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `role_id` BIGINT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_unique` (`email` ASC),
+  INDEX `fk_roles_users_idx` (`role_id` ASC),
+  CONSTRAINT `fk_roles_users`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `lr`.`crm_roles` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
-CREATE UNIQUE INDEX `Email_UNIQUE` ON `lr`.`crm_users` (`Email` ASC);
-
-CREATE INDEX `Roleid` ON `lr`.`crm_users` (`Roleid` ASC);
-
-
 -- -----------------------------------------------------
--- Table `lr`.`ls_shoppingcenters`
+-- Table `lr`.`ls_shoppingCenters`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_shoppingcenters` ;
+DROP TABLE IF EXISTS `lr`.`ls_shoppingCenters` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_shoppingcenters` (
+CREATE TABLE IF NOT EXISTS `lr`.`ls_shoppingCenters` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(255) NOT NULL,
-  `Addressid` BIGINT NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
   `Lat` FLOAT NULL DEFAULT NULL,
   `Lng` FLOAT NULL DEFAULT NULL,
-  `Description` LONGTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  `description` LONGTEXT NULL DEFAULT NULL,
+  `address_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_address_id_unique` (`name` ASC, `address_id` ASC),
+  INDEX `fk_addresses_shoppingCenters_idx` (`address_id` ASC),
+  CONSTRAINT `fk_addresses_shoppingCenters`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `lr`.`addr_addresses` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
-
-CREATE UNIQUE INDEX `Name_Addressid_UNIQUE` ON `lr`.`ls_shoppingcenters` (`Name` ASC, `Addressid` ASC);
-
-CREATE INDEX `FK_Addresses_ShoppingCenters_idx` ON `lr`.`ls_shoppingcenters` (`Addressid` ASC);
-
 
 -- -----------------------------------------------------
 -- Table `lr`.`ls_rooms`
@@ -150,40 +147,42 @@ DROP TABLE IF EXISTS `lr`.`ls_rooms` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`ls_rooms` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(255) NOT NULL,
-  `Square` FLOAT NULL DEFAULT NULL,
-  `ShoppingCenterid` BIGINT NOT NULL,
-  PRIMARY KEY (`id`))
+  `name` VARCHAR(255) NOT NULL,
+  `square` FLOAT NULL DEFAULT NULL,
+  `shoppingcenter_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_shoppingCenter_id_unique` (`name` ASC, `shoppingcenter_id` ASC),
+  INDEX `fk_shoppingCenters_rooms_idx` (`shoppingcenter_id` ASC),
+  INDEX `fk_users_rooms_idx` (`user_id` ASC),
+  CONSTRAINT `fk_shoppingCenters_rooms`
+    FOREIGN KEY (`shoppingcenter_id`)
+    REFERENCES `lr`.`ls_shoppingCenters` (`id`),
+  CONSTRAINT `fk_users_rooms`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `lr`.`crm_users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
-CREATE UNIQUE INDEX `Name_ShoppingCenterid_UNIQUE` ON `lr`.`ls_rooms` (`Name` ASC, `ShoppingCenterid` ASC);
-
-CREATE INDEX `FK_ShoppingCenters_Rooms_idx` ON `lr`.`ls_rooms` (`ShoppingCenterid` ASC);
-
-
 -- -----------------------------------------------------
--- Table `lr`.`ls_leaserooms`
+-- Table `lr`.`ls_leaseAds`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_leaserooms` ;
+DROP TABLE IF EXISTS `lr`.`ls_leaseAds` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_leaserooms` (
+CREATE TABLE IF NOT EXISTS `lr`.`ls_leaseAds` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `Price` FLOAT NULL DEFAULT NULL,
-  `DateStartLease` DATETIME NULL DEFAULT NULL,
-  `DateStopLease` DATETIME NULL DEFAULT NULL,
-  `Roomid` BIGINT NOT NULL,
-  `Userid` BIGINT NOT NULL COMMENT 'owner of room',
-  PRIMARY KEY (`id`))
+  `price` FLOAT NULL DEFAULT NULL,
+  `dateStartLease` DATETIME NULL DEFAULT NULL,
+  `dateStopLease` DATETIME NULL DEFAULT NULL,
+  `room_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `dateStopLease_room_id_unique` (`dateStopLease` ASC, `room_id` ASC),
+  INDEX `fk_rooms_leaseAds_idx` (`room_id` ASC),
+  CONSTRAINT `fk_rooms_leaseAds`
+    FOREIGN KEY (`room_id`)
+    REFERENCES `lr`.`ls_rooms` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
-
-CREATE INDEX `FK_Rooms_LeaseRooms_idx` ON `lr`.`ls_leaserooms` (`Roomid` ASC);
-
-CREATE INDEX `FK_Users_LeaseRooms_idx` ON `lr`.`ls_leaserooms` (`Userid` ASC);
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
