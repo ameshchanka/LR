@@ -233,8 +233,7 @@ DROP TABLE IF EXISTS `lr`.`crm_images` ;
 CREATE TABLE IF NOT EXISTS `lr`.`crm_images` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `path` LONGTEXT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `path_id_unique` (`path` ASC))
+  PRIMARY KEY (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
