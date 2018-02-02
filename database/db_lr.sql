@@ -24,7 +24,7 @@ USE `lr` ;
 DROP TABLE IF EXISTS `lr`.`addr_countries` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`addr_countries` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_unique` (`name` ASC))
@@ -37,9 +37,9 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `lr`.`addr_cities` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`addr_cities` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
-  `country_id` BIGINT NOT NULL,
+  `country_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_country_id_unique` (`name` ASC, `country_id` ASC),
   INDEX `fk_countries_cities_idx` (`country_id` ASC),
@@ -55,9 +55,9 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `lr`.`addr_streets` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`addr_streets` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
-  `city_id` BIGINT NOT NULL,
+  `city_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_city_id_unique` (`name` ASC, `city_id` ASC),
   INDEX `fk_cities_streets_idx` (`city_id` ASC),
@@ -73,11 +73,11 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `lr`.`addr_addresses` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`addr_addresses` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `street_id` BIGINT NOT NULL,
-  `buildingNumberStr` VARCHAR(255) NOT NULL,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `street_id` BIGINT UNSIGNED NOT NULL,
+  `objectNumberStr` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `buildingNumberStr_street_id_unique` (`buildingNumberStr` ASC, `street_id` ASC),
+  UNIQUE INDEX `objectNumberStr_street_id_unique` (`objectNumberStr` ASC, `street_id` ASC),
   INDEX `fk_streets_addresses_idx` (`street_id` ASC),
   CONSTRAINT `fk_streets_addresses`
     FOREIGN KEY (`street_id`)
@@ -91,7 +91,7 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `lr`.`crm_roles` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`crm_roles` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `role` VARCHAR(31) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `role_unique` (`role` ASC))
@@ -104,74 +104,90 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `lr`.`crm_users` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`crm_users` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `password` VARCHAR(1023) NOT NULL,
   `phoneNumber` VARCHAR(255) NULL DEFAULT NULL,
   `email` VARCHAR(255) NOT NULL,
-  `role_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_unique` (`email` ASC),
-  INDEX `fk_roles_users_idx` (`role_id` ASC),
-  CONSTRAINT `fk_roles_users`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `lr`.`crm_roles` (`id`))
+  UNIQUE INDEX `email_unique` (`email` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `lr`.`ls_shoppingcenters`
+-- Table `lr`.`crm_usersroles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_shoppingcenters` ;
+DROP TABLE IF EXISTS `lr`.`crm_users_roles` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_shoppingcenters` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `lr`.`crm_users_roles` (
+  `user_id` BIGINT UNSIGNED NOT NULL,
+  `role_id` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  INDEX `fk_usersroles_users_idx` (`user_id`),
+  CONSTRAINT `fk_usersroles_users`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `crm_users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_usersroles_roles`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `crm_roles` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE)
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8;
+
+-- -----------------------------------------------------
+-- Table `lr`.`lr_roomsobjects`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lr`.`lr_roomsobjects` ;
+
+CREATE TABLE IF NOT EXISTS `lr`.`lr_roomsobjects` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
-  `Lat` FLOAT NULL DEFAULT NULL,
-  `Lng` FLOAT NULL DEFAULT NULL,
-  `address_id` BIGINT NOT NULL,
+  `lat` FLOAT NULL DEFAULT NULL,
+  `lng` FLOAT NULL DEFAULT NULL,
+  `address_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_address_id_unique` (`name` ASC, `address_id` ASC),
-  INDEX `fk_addresses_shoppingcenters_idx` (`address_id` ASC),
-  CONSTRAINT `fk_addresses_shoppingcenters`
+  INDEX `fk_addresses_roomsobjects_idx` (`address_id` ASC),
+  CONSTRAINT `fk_addresses_roomsobjects`
     FOREIGN KEY (`address_id`)
     REFERENCES `lr`.`addr_addresses` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `lr`.`ls_shoppingcenterinfo`
+-- Table `lr`.`lr_roomsobjectinformations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_shoppingcenterinformations` ;
+DROP TABLE IF EXISTS `lr`.`lr_roomsobjectinformations` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_shoppingcenterinformations` (
-  `shoppingcenter_id` BIGINT NOT NULL,
-  `description` LONGTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`shoppingcenter_id`),
-  CONSTRAINT `fk_shoppingcenters_shoppingcenterinformations`
-    FOREIGN KEY (`shoppingcenter_id`)
-    REFERENCES `lr`.`ls_shoppingcenters` (`id`))
+CREATE TABLE IF NOT EXISTS `lr`.`lr_roomsobjectinformations` (
+  `roomsobject_id` BIGINT UNSIGNED NOT NULL,
+  `description` VARCHAR(4095) NULL DEFAULT NULL,
+  PRIMARY KEY (`roomsobject_id`),
+  CONSTRAINT `fk_roomsobjects_roomsobjectinformations`
+    FOREIGN KEY (`roomsobject_id`)
+    REFERENCES `lr`.`lr_roomsobjects` (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `lr`.`ls_rooms`
+-- Table `lr`.`lr_rooms`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_rooms` ;
+DROP TABLE IF EXISTS `lr`.`lr_rooms` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_rooms` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `lr`.`lr_rooms` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `square` FLOAT NULL DEFAULT NULL,
-  `shoppingcenter_id` BIGINT NOT NULL,
-  `user_id` BIGINT NOT NULL,
+  `roomsobject_id` BIGINT UNSIGNED NOT NULL,
+  `user_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_shoppingcenter_id_unique` (`name` ASC, `shoppingcenter_id` ASC),
-  INDEX `fk_shoppingcenters_rooms_idx` (`shoppingcenter_id` ASC),
+  UNIQUE INDEX `name_roomsobject_id_unique` (`name` ASC, `roomsobject_id` ASC),
+  INDEX `fk_roomsobjects_rooms_idx` (`roomsobject_id` ASC),
   INDEX `fk_users_rooms_idx` (`user_id` ASC),
-  CONSTRAINT `fk_shoppingcenters_rooms`
-    FOREIGN KEY (`shoppingcenter_id`)
-    REFERENCES `lr`.`ls_shoppingcenters` (`id`),
+  CONSTRAINT `fk_roomsobjects_rooms`
+    FOREIGN KEY (`roomsobject_id`)
+    REFERENCES `lr`.`lr_roomsobjects` (`id`),
   CONSTRAINT `fk_users_rooms`
     FOREIGN KEY (`user_id`)
     REFERENCES `lr`.`crm_users` (`id`))
@@ -179,36 +195,36 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `lr`.`ls_leaseads`
+-- Table `lr`.`lr_leaseads`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_leaseads` ;
+DROP TABLE IF EXISTS `lr`.`lr_leaseads` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_leaseads` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `lr`.`lr_leaseads` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `price` FLOAT NULL DEFAULT NULL,
   `dateStartLease` DATETIME NULL DEFAULT NULL,
   `dateStopLease` DATETIME NULL DEFAULT NULL,
-  `room_id` BIGINT NOT NULL,
+  `room_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `dateStopLease_room_id_unique` (`dateStopLease` ASC, `room_id` ASC),
   INDEX `fk_rooms_leaseads_idx` (`room_id` ASC),
   CONSTRAINT `fk_rooms_leaseads`
     FOREIGN KEY (`room_id`)
-    REFERENCES `lr`.`ls_rooms` (`id`))
+    REFERENCES `lr`.`lr_rooms` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `lr`.`ls_leaseads`
+-- Table `lr`.`lr_leaseads`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_messages` ;
+DROP TABLE IF EXISTS `lr`.`lr_messages` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_messages` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `sender_id` BIGINT NULL DEFAULT NULL,
-  `recipient_id` BIGINT NOT NULL,
-  `leasead_id` BIGINT NULL DEFAULT NULL,
-  `text` LONGTEXT NULL DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `lr`.`lr_messages` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `sender_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `recipient_id` BIGINT UNSIGNED NOT NULL,
+  `leasead_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+  `text` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_users_messages_sender_idx` (`sender_id` ASC),
   INDEX `fk_users_messages_recipient_idx` (`recipient_id` ASC),
@@ -221,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `lr`.`ls_messages` (
     REFERENCES `lr`.`crm_users` (`id`),
   CONSTRAINT `fk_leaseads_messages`
     FOREIGN KEY (`leasead_id`)
-    REFERENCES `lr`.`ls_leaseads` (`id`))
+    REFERENCES `lr`.`lr_leaseads` (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
@@ -231,45 +247,45 @@ CREATE TABLE IF NOT EXISTS `lr`.`ls_messages` (
 DROP TABLE IF EXISTS `lr`.`crm_images` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`crm_images` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `path` LONGTEXT NOT NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `lr`.`ls_shoppingcenterimages`
+-- Table `lr`.`lr_roomsobjectimages`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_shoppingcenterimages` ;
+DROP TABLE IF EXISTS `lr`.`lr_roomsobjectimages` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_shoppingcenterimages` (
-  `image_id` BIGINT NOT NULL,
-  `shoppingcenter_id` BIGINT NOT NULL,
+CREATE TABLE IF NOT EXISTS `lr`.`lr_roomsobjectimages` (
+  `image_id` BIGINT UNSIGNED NOT NULL,
+  `roomsobject_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`image_id`),
-  CONSTRAINT `fk_images_shoppingcenterimages`
+  CONSTRAINT `fk_images_roomsobjectimages`
     FOREIGN KEY (`image_id`)
     REFERENCES `lr`.`crm_images` (`id`),
-  CONSTRAINT `fk_shoppingcenters_shoppingcenterimages`
-    FOREIGN KEY (`shoppingcenter_id`)
-    REFERENCES `lr`.`ls_shoppingcenters` (`id`))
+  CONSTRAINT `fk_roomsobjects_roomsobjectimages`
+    FOREIGN KEY (`roomsobject_id`)
+    REFERENCES `lr`.`lr_roomsobjects` (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `lr`.`ls_roomimages`
+-- Table `lr`.`lr_roomimages`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lr`.`ls_roomimages` ;
+DROP TABLE IF EXISTS `lr`.`lr_roomimages` ;
 
-CREATE TABLE IF NOT EXISTS `lr`.`ls_roomimages` (
-  `image_id` BIGINT NOT NULL,
-  `room_id` BIGINT NOT NULL,
+CREATE TABLE IF NOT EXISTS `lr`.`lr_roomimages` (
+  `image_id` BIGINT UNSIGNED NOT NULL,
+  `room_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`image_id`),
   CONSTRAINT `fk_images_roomimages`
     FOREIGN KEY (`image_id`)
     REFERENCES `lr`.`crm_images` (`id`),
   CONSTRAINT `fk_rooms_roomimages`
     FOREIGN KEY (`room_id`)
-    REFERENCES `lr`.`ls_rooms` (`id`))
+    REFERENCES `lr`.`lr_rooms` (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
