@@ -17,11 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(
-        name = "lr_roomsobjects",
-        uniqueConstraints =
-        @UniqueConstraint(columnNames = {"name", "address_id"})
-)
+@Table(name = "lr_roomsobjects")
 public class RoomsObject extends BaseEntity {
 
     @Column(name = "name", nullable = false)
@@ -42,4 +38,7 @@ public class RoomsObject extends BaseEntity {
 
     @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)
     private Set<Room> rooms = new HashSet<Room>();
+
+    @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)
+    private Set<RoomsObjectImage> roomsObjectImages = new HashSet<RoomsObjectImage>();
 }

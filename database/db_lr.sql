@@ -106,9 +106,12 @@ DROP TABLE IF EXISTS `lr`.`crm_users` ;
 CREATE TABLE IF NOT EXISTS `lr`.`crm_users` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(1023) NOT NULL,
   `phoneNumber` VARCHAR(255) NULL DEFAULT NULL,
-  `email` VARCHAR(255) NOT NULL,
+  `skype` VARCHAR(255) NULL DEFAULT NULL,
+  `telegram` VARCHAR(255) NULL DEFAULT NULL,
+  `viber` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_unique` (`email` ASC))
 ENGINE = InnoDB
@@ -124,6 +127,7 @@ CREATE TABLE IF NOT EXISTS `lr`.`crm_users_roles` (
   `role_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
   INDEX `fk_usersroles_users_idx` (`user_id`),
+  UNIQUE INDEX `user_id_role_id_unique` (`user_id` ASC, role_id ASC),
   CONSTRAINT `fk_usersroles_users`
     FOREIGN KEY (`user_id`)
     REFERENCES `crm_users` (`id`)
@@ -147,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_roomsobjects` (
   `lng` FLOAT NULL DEFAULT NULL,
   `address_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_address_id_unique` (`name` ASC, `address_id` ASC),
+  UNIQUE INDEX `address_id_unique` (`address_id` ASC),
   INDEX `fk_addresses_roomsobjects_idx` (`address_id` ASC),
   CONSTRAINT `fk_addresses_roomsobjects`
     FOREIGN KEY (`address_id`)
@@ -225,6 +229,7 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_messages` (
   `recipient_id` BIGINT UNSIGNED NOT NULL,
   `leasead_id` BIGINT UNSIGNED NULL DEFAULT NULL,
   `text` TEXT NULL DEFAULT NULL,
+  `dateSend` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_users_messages_sender_idx` (`sender_id` ASC),
   INDEX `fk_users_messages_recipient_idx` (`recipient_id` ASC),
@@ -248,7 +253,7 @@ DROP TABLE IF EXISTS `lr`.`crm_images` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`crm_images` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `path` LONGTEXT NOT NULL,
+  `path` TEXT NOT NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;

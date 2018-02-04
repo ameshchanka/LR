@@ -22,13 +22,18 @@ import javax.persistence.*;
 )
 public class Address extends BaseEntity {
 
-    @Column(name = "objectNumberStr", length = 511, nullable = false)
+    @Column(name = "objectNumberStr", nullable = false)
     private String objectNumberStr;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "street_id")
     private Street street;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private RoomsObject roomsObject;
+
+    public Address(String objectNumberStr, Street street) {
+        this.objectNumberStr = objectNumberStr;
+        this.street = street;
+    }
 }

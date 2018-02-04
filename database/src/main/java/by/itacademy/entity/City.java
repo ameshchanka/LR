@@ -33,4 +33,9 @@ public class City extends BaseEntity{
 
     @OneToMany(mappedBy = "city")
     private Set<Street> streets = new HashSet<Street>();
+
+    public City(String name, Country country) {
+        this.name = name;
+        this.country = country;
+    }
 }

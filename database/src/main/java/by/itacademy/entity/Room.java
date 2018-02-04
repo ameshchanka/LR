@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,4 +38,11 @@ public class Room extends BaseEntity {
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private Set<LeaseAd> leaseAds = new HashSet<LeaseAd>();
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private Set<RoomImage> roomImages = new HashSet<RoomImage>();
 }

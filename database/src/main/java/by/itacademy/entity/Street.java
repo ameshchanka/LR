@@ -27,10 +27,15 @@ public class Street extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "city_id")
     private City city;
 
     @OneToMany(mappedBy = "street")
     private Set<Address> addresses = new HashSet<Address>();
+
+    public Street(String name, City city) {
+        this.name = name;
+        this.city = city;
+    }
 }

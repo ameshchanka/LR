@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by User on 02.02.2018.
+ * Created by a.meshchanka on 02.02.2018.
  */
 @Getter
 @Setter
@@ -28,4 +28,8 @@ public class Role extends BaseEntity {
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<User>();
+
+    public Role(String role) {
+        this.role = role;
+    }
 }

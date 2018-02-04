@@ -26,15 +26,15 @@ public class User extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "phonenumber")
-    private String phoneNumber;
-
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Embedded
+    private Contact contact;
+
     @ManyToMany
     @JoinTable(
-            name = "crm_usersroles",
+            name = "crm_users_roles",
             uniqueConstraints =
                     @UniqueConstraint(columnNames = {"user_id", "role_id"}),
             joinColumns = @JoinColumn(name = "user_id"),
@@ -42,9 +42,13 @@ public class User extends BaseEntity {
     )
     private Set<Role> roles = new HashSet<Role>();
 
-//    `name` VARCHAR(255) NOT NULL,
-//  `password` VARCHAR(1023) NOT NULL,
-//  `phoneNumber` VARCHAR(255) NULL DEFAULT NULL,
-//  `email` VARCHAR(255) NOT NULL,
-//  `role_id` BIGINT NULL DEFAULT NULL,
+    @OneToMany(mappedBy = "user")
+    private Set<Room> rooms = new HashSet<Room>();
+
+    public User(String name, String email, String password, Set<Role> roles) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 }

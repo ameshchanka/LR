@@ -23,6 +23,10 @@
         <mapping class = "by.itacademy.entity.User"/>
         <mapping class = "by.itacademy.entity.Role"/>
         <mapping class = "by.itacademy.entity.LeaseAd"/>
+        <mapping class = "by.itacademy.entity.Image"/>
+        <mapping class = "by.itacademy.entity.RoomImage"/>
+        <mapping class = "by.itacademy.entity.RoomsObjectImage"/>
+        <mapping class = "by.itacademy.entity.Message"/>
 
     </session-factory>
 </hibernate-configuration>

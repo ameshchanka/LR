@@ -7,6 +7,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by a.meshchanka on 02.02.2018.
@@ -35,5 +37,8 @@ public class LeaseAd extends BaseEntity {
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "room_id")
     private Room room;
+
+    @OneToMany(mappedBy = "leaseAd")
+    private Set<Message> messages = new HashSet<Message>();
 
 }

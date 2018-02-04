@@ -1,9 +1,7 @@
 package by.itacademy.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jdk.nashorn.internal.objects.annotations.Constructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,4 +26,8 @@ public class Country extends BaseEntity {
 
     @OneToMany(mappedBy = "country")
     private Set<City> cities = new HashSet<City>();
+
+    public Country(String name) {
+        this.name = name;
+    }
 }
