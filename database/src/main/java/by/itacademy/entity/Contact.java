@@ -16,7 +16,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Contact {
 
-    @Column(name = "phone")
+    @Column(name = "phoneNumber")
     private String phone;
 
     @Column(name = "skype")

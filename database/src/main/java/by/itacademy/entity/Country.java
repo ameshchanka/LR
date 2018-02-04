@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"cities"})
 @Entity
 @Table(name = "addr_countries")
 public class Country extends BaseEntity {

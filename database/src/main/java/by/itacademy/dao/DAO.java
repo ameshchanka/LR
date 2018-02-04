@@ -10,8 +10,8 @@ public final class DAO {
     private static DAO dao;
 
     public AddressDAO addressDAO;
-//    public CityDAO cityDAO;
-//    public CountryDAO countryDAO;
+    public CityDAO cityDAO;
+    public CountryDAO countryDAO;
 //    public ImageDAO imageDAO;
 //    public LeaseAdDAO leaseAdDAO;
 //    public MessageDAO messageDAO;
@@ -21,7 +21,7 @@ public final class DAO {
 //    public RoomsObjectDAO roomsObjectDAO;
 //    public RoomsObjectImageDAO roomsObjectImageDAO;
 //    public RoomsObjectInformationsDAO roomsObjectInformationsDAO;
-//    public StreetDAO streetDAO;
+    public StreetDAO streetDAO;
     public UserDAO userDAO;
 
     private DAO() {
@@ -34,8 +34,8 @@ public final class DAO {
                 if (dao == null) {
                     dao = new DAO();
                     dao.addressDAO = new AddressDAO();
-//                    dao.cityDAO = new CityDAO();
-//                    dao.countryDAO = new CountryDAO();
+                    dao.cityDAO = new CityDAO();
+                    dao.countryDAO = new CountryDAO();
 //                    dao.imageDAO = new ImageDAO();
 //                    dao.leaseAdDAO = new LeaseAdDAO();
 //                    dao.messageDAO = new MessageDAO();
@@ -45,7 +45,7 @@ public final class DAO {
 //                    dao.roomsObjectDAO = new RoomsObjectDAO();
 //                    dao.roomsObjectImageDAO = new RoomsObjectImageDAO();
 //                    dao.roomsObjectInformationsDAO = new RoomsObjectInformationsDAO();
-//                    dao.streetDAO = new StreetDAO();
+                    dao.streetDAO = new StreetDAO();
                     dao.userDAO = new UserDAO();
                 }
             }

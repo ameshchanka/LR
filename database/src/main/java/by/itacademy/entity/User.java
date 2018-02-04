@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"rooms"})
 @Entity
 @Table(name = "crm_users")
 public class User extends BaseEntity {
@@ -32,7 +32,7 @@ public class User extends BaseEntity {
     @Embedded
     private Contact contact;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "crm_users_roles",
             uniqueConstraints =
@@ -45,10 +45,11 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private Set<Room> rooms = new HashSet<Room>();
 
-    public User(String name, String email, String password, Set<Role> roles) {
+    public User(String name, String email, String password, Contact contact, Set<Role> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.contact = contact;
     }
 }

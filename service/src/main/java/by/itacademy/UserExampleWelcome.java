@@ -1,15 +1,15 @@
 package by.itacademy;
 
+import by.itacademy.entity.User;
+
 /**
  * Created by User on 21.01.2018.
  */
 public class UserExampleWelcome {
 
-    private UserExample userExample = new UserExample("Aleh", "Meshchanka");
-
     public String say() {
-        return userExample.getName()
-                + " " + userExample.getLastName()
-                + " sayed: - Hello world!";
+        User userExample = new UserExample().getFirstUser();
+
+        return userExample.getName() + (userExample) + " sayed: - Hello world!";
     }
 }

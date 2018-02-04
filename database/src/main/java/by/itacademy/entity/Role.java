@@ -18,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"users"})
 @Entity
 @Table(name = "crm_roles")
 public class Role extends BaseEntity {

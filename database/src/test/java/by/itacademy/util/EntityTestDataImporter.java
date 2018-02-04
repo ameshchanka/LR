@@ -56,10 +56,16 @@ public class EntityTestDataImporter {
         session.save(roleUser);
 
         User userAdmin = new User("NameAdmin","admin@admin.com","123456789",
+                new Contact("+375291111111","admin_skype","admin_telegram",
+                        "admin_viber"),
                 new HashSet<Role>(Arrays.asList(roleAdmin, roleManager, roleUser)));
         User userManager = new User("NameManager", "manager@mail.com", "123456789",
+                new Contact("+375292222222","manager_skype","manager_telegram",
+                        "manager_viber"),
                 new HashSet<Role>(Arrays.asList(roleManager, roleUser)));
         User user = new User("NameUser", "user@user.com", "123456789",
+                new Contact("+375293333333","user_skype","user_telegram",
+                        "user_viber"),
                 new HashSet<Role>(Arrays.asList(roleUser)));
         session.save(userAdmin);
         session.save(userManager);

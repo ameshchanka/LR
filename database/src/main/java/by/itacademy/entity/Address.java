@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"roomsObject"})
 @Entity
 @Table(
         name = "addr_addresses",
