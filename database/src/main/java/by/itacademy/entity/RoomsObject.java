@@ -34,11 +34,23 @@ public class RoomsObject extends BaseEntity {
     private Address address;
 
     @OneToOne(mappedBy = "roomsObject", fetch = FetchType.LAZY)
-    private RoomsObjectInformations info;
+    private RoomsObjectInformation info;
 
     @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)
     private Set<Room> rooms = new HashSet<Room>();
 
     @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)
     private Set<RoomsObjectImage> roomsObjectImages = new HashSet<RoomsObjectImage>();
+
+    public RoomsObject(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public RoomsObject(String name, Float lat, Float lng, Address address) {
+        this.name = name;
+        this.lat = lat;
+        this.lng = lng;
+        this.address = address;
+    }
 }

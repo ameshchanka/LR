@@ -16,7 +16,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "lr_roomsobjectinformations")
-public class RoomsObjectInformations {
+public class RoomsObjectInformation {
 
     @Id
     @Column(name = "roomsobject_id", unique = true, nullable = false)
@@ -29,4 +29,9 @@ public class RoomsObjectInformations {
     @OneToOne
     @JoinColumn(name = "roomsobject_id", unique = true, nullable = false)
     private RoomsObject roomsObject;
+
+    public RoomsObjectInformation(String description, RoomsObject roomsObject) {
+        this.description = description;
+        this.roomsObject = roomsObject;
+    }
 }

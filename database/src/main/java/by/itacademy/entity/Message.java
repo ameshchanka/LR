@@ -36,4 +36,12 @@ public class Message extends BaseEntity {
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "leasead_id")
     private LeaseAd leaseAd;
+
+    public Message(String text, LocalDateTime dateSend, User sender, User recipient, LeaseAd leaseAd) {
+        this.text = text;
+        this.dateSend = dateSend;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.leaseAd = leaseAd;
+    }
 }

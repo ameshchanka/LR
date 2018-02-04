@@ -2,12 +2,7 @@ package by.itacademy.dao;
 
 import by.itacademy.entity.Address;
 import by.itacademy.entity.Street;
-import by.itacademy.util.EntityTestDataImporter;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -16,15 +11,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by a.meshchanka on 03.02.2018.
  */
-public class AddressDAOTest {
-
-    private SessionFactory sessionFactory;
-
-    @Before
-    public void initDb() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
-        EntityTestDataImporter.getInstance().importTestData(sessionFactory);
-    }
+public class AddressDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
@@ -46,16 +33,10 @@ public class AddressDAOTest {
         Street temp = session.get(Street.class, 2L);
         Address item = new Address("38-79", temp);
         DAO.getInstance().addressDAO.create(session, item);
-        Address result = session.get(Address.class, 3L);
+        Address result = session.get(Address.class, 5L);
         assertThat(result.getObjectNumberStr(), equalTo("38-79"));
 
         session.getTransaction().commit();
         session.close();
     }
-
-    @After
-    public void finish() {
-        sessionFactory.close();
-    }
-
 }

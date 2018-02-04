@@ -4,8 +4,9 @@ import by.itacademy.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -40,13 +41,21 @@ public class EntityTestDataImporter {
 
         Street street1 = new Street("Prititskogo", city);
         Street street2 = new Street("Pobediteley", city);
+        Street street3 = new Street("Bobruiskaya", city);
+        Street street4 = new Street("P.Glebki", city);
         session.save(street1);
         session.save(street2);
+        session.save(street3);
+        session.save(street4);
 
         Address address1 = new Address("65", street1);
         Address address2 = new Address("29", street2);
+        Address address3 = new Address("6", street3);
+        Address address4 = new Address("5", street4);
         session.save(address1);
         session.save(address2);
+        session.save(address3);
+        session.save(address4);
 
         Role roleAdmin = new Role("admin");
         Role roleManager = new Role("manager");
@@ -71,133 +80,57 @@ public class EntityTestDataImporter {
         session.save(userManager);
         session.save(user);
 
-//
-//        // addr_countries - добавляем страны
-//
-//        Country country = new Country(0,"Belarus");
-//        dao.country.create(country);
-//
-//        // addr_cities - добавляем города
-//        City city = new City(0,"Minsk",country.getId());
-//        dao.city.create(city);
-//
-//        // addr_cities - добавляем улицы
-//        //Pobeditelei
-//        //Prititskogo
-//        Street street1 = new Street(0,"Pobeditelei",city.getId());
-//        dao.street.create(street1);
-//        Street street2 = new Street(0,"Prititskogo",city.getId());
-//        dao.street.create(street2);
-//
-//        // addr_addresses - добавляем адреса
-//        //Pobeditelei 65
-//        //Prititskogo 29
-//        Address address1 = new Address(0, street1.getId(), "65");
-//        dao.address.create(address1);
-//
-//        Address address2 = new Address(0, street2.getId(), "29");
-//        dao.address.create(address2);
-//
-//        // ls_shoppingcenters - добавляем торговые центры
-//        // Zamok //53.9307475,27.5178348
-//        // Tivalli 53.908061, 27.484856
-//        ShoppingCenter shoppingCenter1 = new ShoppingCenter(0, "Zamok", address1.getId(),
-//                53.9307475f, 27.5178348f,
-//                "Торговый центр Замок – новый уровень шопинга и развлечений! К вашим услугам" +
-//                        " - магазины, кафе и рестораны, ледовый каток, кинотеатр, детский зал.");
-//        dao.shoppingCenter.create(shoppingCenter1);
-//
-//        ShoppingCenter shoppingCenter2 = new ShoppingCenter(0, "Tivalli", address2.getId(),
-//                53.908061f, 27.484856f,
-//                "Современный Многофункциональный Торгово-Развлекательный Бизнес Комплекс. " +
-//                        "Представляет собой мощный проект, подчёркивающий современный этап развития" +
-//                        " Минска в качестве столицы европейского государства.");
-//        dao.shoppingCenter.create(shoppingCenter2);
-//
-//        // ls_rooms - добавляем помещения
-//        Room room = new Room(0, "A24", 524.6f, shoppingCenter1.getId());
-//        dao.room.create(room);
-//        dao.leaseRoom.create(new LeaseRoom(0, 555f,
-//                new Date(new java.util.Date().getTime()),
-//                null,
-//                room.getId(),
-//                userManager.getId()));
-//
-//        room = new Room(0, "B67", 324.4f, shoppingCenter1.getId());
-//        dao.room.create(room);
-//        dao.leaseRoom.create(new LeaseRoom(0, 450f,
-//                null,
-//                null,
-//                room.getId(),
-//                userManager.getId()));
-//
-//        room = new Room(0, "C31", 724.4f, shoppingCenter2.getId());
-//        dao.room.create(room);
-//        dao.leaseRoom.create(new LeaseRoom(0, 1500f,
-//                null,
-//                null,
-//                room.getId(),
-//                userManager.getId()));
-//
-//        room = new Room(0, "D15", 224.4f, shoppingCenter2.getId());
-//        dao.room.create(room);
-//        dao.leaseRoom.create(new LeaseRoom(0, 300f,
-//                null,
-//                null,
-//                room.getId(),
-//                userManager.getId()));
+        RoomsObject ro1 = new RoomsObject("Zamok" ,
+                53.9307475F, 27.5178348F, address1);
+        RoomsObject ro2 = new RoomsObject("Tivalli" ,
+                53.908061F, 27.484856F, address2);
+        RoomsObject ro3 = new RoomsObject("Galileo" , address3);
+        RoomsObjectInformation roi1 = new RoomsObjectInformation("Торговый центр Замок – " +
+                "новый уровень шопинга и развлечений! К вашим услугам - магазины, кафе и " +
+                "рестораны, ледовый каток, кинотеатр, детский зал.", ro1);
+        RoomsObjectInformation roi2 = new RoomsObjectInformation("Современный Многофункциональный" +
+                " Торгово-Развлекательный Бизнес Комплекс. Представляет собой мощный проект, подчёркивающий " +
+                "современный этап развития Минска в качестве столицы европейского государства.", ro2);
 
-//        Organization microsoft = saveOrganization(session, "Microsoft");
-//        Organization apple = saveOrganization(session, "Apple");
-//        Organization google = saveOrganization(session, "Google");
-//
-//        Employee billGates = saveEmployee(session, "Bill", "Gates",
-//                LocalDate.of(1955, Month.OCTOBER, 28), Gender.MALE, microsoft);
-//        Employee steveJobs = saveEmployee(session, "Steve", "Jobs",
-//                LocalDate.of(1955, Month.FEBRUARY, 24), Gender.MALE, apple);
-//        Employee sergeyBrin = saveEmployee(session, "Sergey", "Brin",
-//                LocalDate.of(1973, Month.AUGUST, 21), Gender.MALE, google);
-//        Employee timCook = saveEmployee(session, "Tim", "Cook",
-//                LocalDate.of(1960, Month.NOVEMBER, 1), Gender.MALE, apple);
-//        Employee dianeGreene = saveEmployee(session, "Diane", "Greene",
-//                LocalDate.of(1955, Month.JANUARY, 1), Gender.FEMALE, google);
-//
-//        savePayment(session, billGates, BigDecimal.valueOf(100));
-//        savePayment(session, billGates, BigDecimal.valueOf(300));
-//        savePayment(session, billGates, BigDecimal.valueOf(500));
-//
-//        savePayment(session, steveJobs, BigDecimal.valueOf(250));
-//        savePayment(session, steveJobs, BigDecimal.valueOf(600));
-//        savePayment(session, steveJobs, BigDecimal.valueOf(500));
-//
-//        savePayment(session, timCook, BigDecimal.valueOf(400));
-//        savePayment(session, timCook, BigDecimal.valueOf(300));
-//
-//        savePayment(session, sergeyBrin, BigDecimal.valueOf(500));
-//        savePayment(session, sergeyBrin, BigDecimal.valueOf(500));
-//        savePayment(session, sergeyBrin, BigDecimal.valueOf(500));
-//
-//        savePayment(session, dianeGreene, BigDecimal.valueOf(300));
-//        savePayment(session, dianeGreene, BigDecimal.valueOf(300));
-//        savePayment(session, dianeGreene, BigDecimal.valueOf(300));
+        session.save(ro1);
+        session.save(ro2);
+        session.save(ro3);
+        session.save(roi1);
+        session.save(roi2);
+
+        Room r1 = new Room("A24", 524.6F, ro1, userManager);
+        Room r2 = new Room("B67", 324.4F, ro1, userManager);
+        Room r3 = new Room("C31", 724.4F, ro1, userManager);
+        Room r4 = new Room("D15", 224.4F, ro1, userManager);
+        session.save(r1);
+        session.save(r2);
+        session.save(r3);
+        session.save(r4);
+
+        LeaseAd la1 = new LeaseAd(1200.0F, r1);
+        LeaseAd la2 = new LeaseAd(700.0F, r2);
+        session.save(la1);
+        session.save(la2);
+
+        Message message1 = new Message("Hi, where i can get your phone number?",
+                LocalDateTime.now(), user, userManager, la1);
+        session.save(message1);
+
+        File f1 = createFile("img_sc_zamok001.jpg");
+        RoomsObjectImage roomsObjectImage1 = new RoomsObjectImage(f1.getName(), ro1);
+        session.save(roomsObjectImage1);
+
+        File f2 = createFile("img_sc_zamok_room001.jpg");
+        RoomImage roomImage1 = new RoomImage(f2.getName(), r1);
+        session.save(roomImage1);
 
         session.close();
     }
 
-//    private Organization saveOrganization(Session session, String name) {
-//        Organization organization = new Organization(name);
-//        session.save(organization);
-//        return organization;
-//    }
-//
-//    private Employee saveEmployee(Session session, String firstName, String lastName,
-//                                  LocalDate birthday, Gender gender, Organization organization) {
-//        Employee employee = new Employee(firstName, lastName, birthday, gender, organization);
-//        session.save(employee);
-//        return employee;
-//    }
-//
-//    private void savePayment(Session session, Employee employee, BigDecimal amount) {
-//        session.save(new Payment(amount, employee));
-//    }
+    public File createFile(String name) {
+        String projectDir = System.getProperty("user.dir");
+        String src = "/src/main/resources/img/";
+        String fileName = projectDir + src + name;
+        return new File(fileName);
+    }
 }

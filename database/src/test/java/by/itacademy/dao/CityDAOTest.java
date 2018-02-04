@@ -2,29 +2,16 @@ package by.itacademy.dao;
 
 import by.itacademy.entity.City;
 import by.itacademy.entity.Country;
-import by.itacademy.util.EntityTestDataImporter;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by User on 04.02.2018.
+ * Created by a.meshchanka on 04.02.2018.
  */
-public class CityDAOTest {
-
-    private SessionFactory sessionFactory;
-
-    @Before
-    public void initDb() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
-        EntityTestDataImporter.getInstance().importTestData(sessionFactory);
-    }
+public class CityDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
@@ -51,10 +38,5 @@ public class CityDAOTest {
 
         session.getTransaction().commit();
         session.close();
-    }
-
-    @After
-    public void finish() {
-        sessionFactory.close();
     }
 }

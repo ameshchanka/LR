@@ -1,6 +1,7 @@
 package by.itacademy.dao;
 
-import by.itacademy.entity.Role;
+import by.itacademy.entity.LeaseAd;
+import by.itacademy.entity.Room;
 import org.hibernate.Session;
 import org.junit.Test;
 
@@ -10,15 +11,16 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by a.meshchanka on 04.02.2018.
  */
-public class RoleDAOTest extends BaseDAOTest {
+public class LeaseAdDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        Role item = DAO.getInstance().roleDAO.get(session, 1L);
-        assertThat(item.getRole(), equalTo("admin"));
+        LeaseAd item = DAO.getInstance().leaseAdDAO.get(session, 1L);
+        assertThat(item.getRoom().getName(), equalTo("A24"));
+        assertThat(item.getPrice(), equalTo(1200.0F));
 
         session.getTransaction().commit();
         session.close();
@@ -29,10 +31,12 @@ public class RoleDAOTest extends BaseDAOTest {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        Role item = new Role("moderator");
-        DAO.getInstance().roleDAO.create(session, item);
-        Role result = session.get(Role.class, 4L);
-        assertThat(result.getRole(), equalTo("moderator"));
+        Room temp = session.get(Room.class, 2L);
+        LeaseAd item = new LeaseAd(800.0F, temp);
+        DAO.getInstance().leaseAdDAO.create(session, item);
+        LeaseAd result = session.get(LeaseAd.class, 3L);
+        assertThat(result.getRoom().getName(), equalTo("B67"));
+        assertThat(result.getPrice(), equalTo(800.0F));
 
         session.getTransaction().commit();
         session.close();

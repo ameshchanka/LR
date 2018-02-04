@@ -21,4 +21,9 @@ public class RoomsObjectImage extends Image {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     private RoomsObject roomsObject;
+
+    public RoomsObjectImage(String path, RoomsObject roomsObject) {
+        super(path);
+        this.roomsObject = roomsObject;
+    }
 }

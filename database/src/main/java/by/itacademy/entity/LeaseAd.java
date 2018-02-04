@@ -41,4 +41,8 @@ public class LeaseAd extends BaseEntity {
     @OneToMany(mappedBy = "leaseAd")
     private Set<Message> messages = new HashSet<Message>();
 
+    public LeaseAd(Float price, Room room) {
+        this.price = price;
+        this.room = room;
+    }
 }

@@ -40,9 +40,16 @@ public class Room extends BaseEntity {
     private Set<LeaseAd> leaseAds = new HashSet<LeaseAd>();
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private Set<RoomImage> roomImages = new HashSet<RoomImage>();
+
+    public Room(String name, Float square, RoomsObject roomsObject, User user) {
+        this.name = name;
+        this.square = square;
+        this.roomsObject = roomsObject;
+        this.user = user;
+    }
 }

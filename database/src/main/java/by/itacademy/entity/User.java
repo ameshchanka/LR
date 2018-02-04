@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"rooms"})
+@ToString(exclude = {"rooms", "password"})
 @Entity
 @Table(name = "crm_users")
 public class User extends BaseEntity {

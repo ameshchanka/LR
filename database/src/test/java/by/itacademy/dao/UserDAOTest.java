@@ -3,32 +3,19 @@ package by.itacademy.dao;
 import by.itacademy.entity.Contact;
 import by.itacademy.entity.Role;
 import by.itacademy.entity.User;
-import by.itacademy.util.EntityTestDataImporter;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by a.meshchanka on 03.02.2018.
  */
-public class UserDAOTest {
-
-    private SessionFactory sessionFactory;
-
-    @Before
-    public void initDb() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
-        EntityTestDataImporter.getInstance().importTestData(sessionFactory);
-    }
+public class UserDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
@@ -59,10 +46,5 @@ public class UserDAOTest {
 
         session.getTransaction().commit();
         session.close();
-    }
-
-    @After
-    public void finish() {
-        sessionFactory.close();
     }
 }
