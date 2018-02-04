@@ -1,0 +1,40 @@
+package by.itacademy.dao;
+
+import by.itacademy.entity.Country;
+import org.hibernate.Session;
+import org.junit.Test;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+/**
+ * Created by a.meshchanka on 04.02.2018.
+ */
+public class CountryDAOTest extends BaseDAOTest {
+
+    @Test
+    public void get() throws Exception {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Country item = DAO.getInstance().countryDAO.get(session, 1L);
+        assertThat(item.getName(), equalTo("Belarus"));
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    @Test
+    public void create() throws Exception {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Country item = new Country("Ukraine");
+        DAO.getInstance().countryDAO.create(session, item);
+        Country result = session.get(Country.class, 2L);
+        assertThat(result.getName(), equalTo("Ukraine"));
+
+        session.getTransaction().commit();
+        session.close();
+    }
+}

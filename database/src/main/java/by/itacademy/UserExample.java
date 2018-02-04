@@ -1,41 +1,29 @@
 package by.itacademy;
 
+import by.itacademy.dao.DAO;
+import by.itacademy.entity.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 /**
  * Created by a.meshchenko on 21.01.2018.
  */
 public class UserExample {
 
-    private String name;
-    private String lastName;
+    public User getFirstUser() {
+        SessionFactory sessionFactory = new Configuration()
+                .configure()
+                .buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
 
-    public UserExample() {}
+        User item = DAO.getInstance().userDAO.get(session, 1L);
 
-    public UserExample(String name, String lastName) {
-        this.name = name;
-        this.lastName = lastName;
-    }
+        session.getTransaction().commit();
+        session.close();
+        sessionFactory.close();
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    @Override
-    public String toString() {
-        return "UserExample{"
-                + "name='" + name + '\''
-                + ", lastName='" + lastName + '\''
-                + '}';
+        return item;
     }
 }

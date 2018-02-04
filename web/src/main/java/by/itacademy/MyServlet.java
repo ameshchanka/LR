@@ -20,8 +20,6 @@ public class MyServlet extends HttpServlet {
 
         UserExampleWelcome uEW = new UserExampleWelcome();
         req.setAttribute("userExampleWelcome", uEW.say());
-        //PrintWriter printWriter = resp.getWriter();
-        //printWriter.println("For example");
 
         req.getRequestDispatcher("WEB-INF/view/user.jsp").forward(req, resp);
     }
