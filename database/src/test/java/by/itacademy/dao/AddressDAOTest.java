@@ -15,14 +15,8 @@ public class AddressDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        Address item = DAO.getInstance().addressDAO.get(session, 1L);
+        Address item = DAO.getInstance().addressDAO.findById(1L);
         assertThat(item.getObjectNumberStr(), equalTo("65"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Test
@@ -32,7 +26,7 @@ public class AddressDAOTest extends BaseDAOTest {
 
         Street temp = session.get(Street.class, 2L);
         Address item = new Address("38-79", temp);
-        DAO.getInstance().addressDAO.create(session, item);
+        DAO.getInstance().addressDAO.save(item);
         Address result = session.get(Address.class, 5L);
         assertThat(result.getObjectNumberStr(), equalTo("38-79"));
 

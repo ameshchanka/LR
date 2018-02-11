@@ -1,5 +1,6 @@
 package by.itacademy.dao;
 
+import by.itacademy.entity.City;
 import by.itacademy.util.EntityTestDataImporter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -11,12 +12,12 @@ import org.junit.Before;
  */
 public class BaseDAOTest {
 
-    protected SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory = BaseDAO.getSessionFactory();
     protected EntityTestDataImporter IMPORTER = EntityTestDataImporter.getInstance();
 
     @Before
     public void initDb() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
+        //sessionFactory = new Configuration().configure().buildSessionFactory();
         IMPORTER.importTestData(sessionFactory);
     }
 

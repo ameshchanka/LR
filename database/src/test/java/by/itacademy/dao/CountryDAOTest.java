@@ -14,27 +14,15 @@ public class CountryDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        Country item = DAO.getInstance().countryDAO.get(session, 1L);
+        Country item = DAO.getInstance().countryDAO.findById(1L);
         assertThat(item.getName(), equalTo("Belarus"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Test
     public void create() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
         Country item = new Country("Ukraine");
-        DAO.getInstance().countryDAO.create(session, item);
-        Country result = session.get(Country.class, 2L);
+        DAO.getInstance().countryDAO.save(item);
+        Country result = DAO.getInstance().countryDAO.findById(2L);
         assertThat(result.getName(), equalTo("Ukraine"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 }

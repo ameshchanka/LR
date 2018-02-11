@@ -21,6 +21,6 @@ public class MyServlet extends HttpServlet {
         UserExampleWelcome uEW = new UserExampleWelcome();
         req.setAttribute("userExampleWelcome", uEW.say());
 
-        req.getRequestDispatcher("WEB-INF/view/user.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/view/lease.jsp").forward(req, resp);
     }
 }
