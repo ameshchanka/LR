@@ -1,18 +1,12 @@
 package by.itacademy.dao;
 
 import by.itacademy.entity.Address;
+import by.itacademy.entity.BaseEntity;
 import org.hibernate.Session;
 
 /**
- * Created by a.meshchanka on 03.02.2018.
+ * @author a.meshchanka on 03.02.2018.
  */
-public class AddressDAO {
+public class AddressDAO extends BaseDAO<Address> {
 
-    public Address get(Session session, long id) {
-        return session.get(Address.class, id);
-    }
-
-    public void create (Session session, Address item) {
-        session.save(item);
-    }
 }
