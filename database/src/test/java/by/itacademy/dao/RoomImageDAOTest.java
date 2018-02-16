@@ -19,31 +19,19 @@ public class RoomImageDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        RoomImage item = DAO.getInstance().roomImageDAO.get(session, 2L);
+        RoomImage item = DAO.getInstance().getRoomImageDAO().findById(2L);
         assertThat(item.getRoom().getName(), equalTo("A24"));
         assertThat(item.getPath(), equalTo("img_sc_zamok_room001.jpg"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Test
     public void create() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
         File f = IMPORTER.createFile("img_sc_zamok_room002.jpg");
-        Room rTemp = session.get(Room.class, 1L);
+        Room rTemp = DAO.getInstance().getRoomDAO().findById(1L);
         RoomImage item = new RoomImage(f.getName(), rTemp);
-        DAO.getInstance().roomImageDAO.create(session, item);
-        RoomImage result = session.get(RoomImage.class, 3L);
+        DAO.getInstance().getRoomImageDAO().save(item);
+        RoomImage result = DAO.getInstance().getRoomImageDAO().findById(3L);
         assertThat(result.getRoom().getName(), equalTo("A24"));
         assertThat(result.getPath(), equalTo("img_sc_zamok_room002.jpg"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 }

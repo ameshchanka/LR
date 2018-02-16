@@ -15,28 +15,16 @@ public class RoomsObjectDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        RoomsObject item = DAO.getInstance().roomsObjectDAO.get(session, 1L);
+        RoomsObject item = DAO.getInstance().getRoomsObjectDAO().findById(1L);
         assertThat(item.getName(), equalTo("Zamok"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Test
     public void create() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        Address temp = session.get(Address.class, 4L);
+        Address temp = DAO.getInstance().getAddressDAO().findById(4L);
         RoomsObject item = new RoomsObject("Skala", temp);
-        DAO.getInstance().roomsObjectDAO.create(session, item);
-        RoomsObject result = session.get(RoomsObject.class, 4L);
+        DAO.getInstance().getRoomsObjectDAO().save(item);
+        RoomsObject result = DAO.getInstance().getRoomsObjectDAO().findById(4L);
         assertThat(result.getName(), equalTo("Skala"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 }

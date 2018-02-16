@@ -1,6 +1,10 @@
 package by.itacademy.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

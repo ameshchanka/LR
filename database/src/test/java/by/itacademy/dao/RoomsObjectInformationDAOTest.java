@@ -19,7 +19,7 @@ public class RoomsObjectInformationDAOTest extends BaseDAOTest {
         session.beginTransaction();
 
         RoomsObjectInformation item =
-                DAO.getInstance().roomsObjectInformationsDAO.get(session, 1L);
+                DAO.getInstance().getRoomsObjectInformationsDAO().get(session, 1L);
         assertThat(item.getRoomsObject().getName(), equalTo("Zamok"));
 
         session.getTransaction().commit();
@@ -36,7 +36,7 @@ public class RoomsObjectInformationDAOTest extends BaseDAOTest {
                 "Многофункциональный торгово-развлекательный комплекс, " +
                         "современный формат которого позволяет объединить возможности " +
                         "для комфортного шопинга и насыщенного досуга.", temp);
-        DAO.getInstance().roomsObjectInformationsDAO.create(session, item);
+        DAO.getInstance().getRoomsObjectInformationsDAO().create(session, item);
         RoomsObjectInformation result = session.get(RoomsObjectInformation.class, 3L);
         assertThat(result.getRoomsObject().getName(), equalTo("Galileo"));
 

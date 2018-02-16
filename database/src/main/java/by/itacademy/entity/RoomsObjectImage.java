@@ -5,7 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
 
 /**
  * Created by a.meshchanka on 03.02.2018.
@@ -19,7 +23,7 @@ import javax.persistence.*;
 @PrimaryKeyJoinColumn(name = "image_id")
 public class RoomsObjectImage extends Image {
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private RoomsObject roomsObject;
 
     public RoomsObjectImage(String path, RoomsObject roomsObject) {

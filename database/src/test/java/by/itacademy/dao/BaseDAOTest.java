@@ -12,17 +12,21 @@ import org.junit.Before;
  */
 public class BaseDAOTest {
 
-    protected SessionFactory sessionFactory = BaseDAO.getSessionFactory();
-    protected EntityTestDataImporter IMPORTER = EntityTestDataImporter.getInstance();
+    protected static SessionFactory sessionFactory = BaseDAO.getSessionFactory();
+    protected static EntityTestDataImporter IMPORTER = EntityTestDataImporter.getInstance();
 
+    static {
+        IMPORTER.importTestData(sessionFactory);
+    }
     @Before
     public void initDb() {
         //sessionFactory = new Configuration().configure().buildSessionFactory();
-        IMPORTER.importTestData(sessionFactory);
+        //sessionFactory = BaseDAO.getSessionFactory();
+        //IMPORTER.importTestData(sessionFactory);
     }
 
     @After
     public void finish() {
-        sessionFactory.close();
+        //sessionFactory.close();
     }
 }

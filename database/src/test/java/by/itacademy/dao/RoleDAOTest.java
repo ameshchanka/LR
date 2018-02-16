@@ -14,27 +14,15 @@ public class RoleDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        Role item = DAO.getInstance().roleDAO.get(session, 1L);
+        Role item = DAO.getInstance().getRoleDAO().findById(1L);
         assertThat(item.getRole(), equalTo("admin"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Test
     public void create() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
         Role item = new Role("moderator");
-        DAO.getInstance().roleDAO.create(session, item);
-        Role result = session.get(Role.class, 4L);
+        DAO.getInstance().getRoleDAO().save(item);
+        Role result = DAO.getInstance().getRoleDAO().findById(4L);
         assertThat(result.getRole(), equalTo("moderator"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 }

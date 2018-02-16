@@ -1,7 +1,9 @@
 package by.itacademy.entity;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

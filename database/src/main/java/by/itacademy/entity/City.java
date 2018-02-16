@@ -5,7 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,14 +29,14 @@ import java.util.Set;
         uniqueConstraints =
                 @UniqueConstraint(columnNames = {"name", "country_id"})
 )
-public class City extends BaseEntity{
+public class City extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "country_id", nullable = false)
-    Country country;
+    private Country country;
 
     @OneToMany(mappedBy = "city")
     private Set<Street> streets = new HashSet<Street>();
