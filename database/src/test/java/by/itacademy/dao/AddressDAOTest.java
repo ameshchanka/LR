@@ -14,23 +14,17 @@ import static org.junit.Assert.assertThat;
 public class AddressDAOTest extends BaseDAOTest {
 
     @Test
-    public void get() throws Exception {
-        Address item = DAO.getInstance().addressDAO.findById(1L);
+    public void findById() throws Exception {
+        Address item = DAO.getInstance().getAddressDAO().findById(1L);
         assertThat(item.getObjectNumberStr(), equalTo("65"));
     }
 
     @Test
-    public void create() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        Street temp = session.get(Street.class, 2L);
+    public void save() throws Exception {
+        Street temp = DAO.getInstance().getStreetDAO().findById(2L);
         Address item = new Address("38-79", temp);
-        DAO.getInstance().addressDAO.save(item);
-        Address result = session.get(Address.class, 5L);
+        DAO.getInstance().getAddressDAO().save(item);
+        Address result = DAO.getInstance().getAddressDAO().findById(5L);
         assertThat(result.getObjectNumberStr(), equalTo("38-79"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 }

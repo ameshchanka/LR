@@ -14,29 +14,17 @@ import static org.junit.Assert.assertThat;
 public class CityDAOTest extends BaseDAOTest {
 
     @Test
-    public void get() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        City item = DAO.getInstance().cityDAO.get(session, 1L);
+    public void findById() throws Exception {
+        City item = DAO.getInstance().getCityDAO().findById(1L);
         assertThat(item.getName(), equalTo("Minsk"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Test
-    public void create() throws Exception {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        Country temp = session.get(Country.class, 1L);
+    public void save() throws Exception {
+        Country temp = DAO.getInstance().getCountryDAO().findById(1L);
         City item = new City("Gomel", temp);
-        DAO.getInstance().cityDAO.create(session, item);
-        City result = session.get(City.class, 2L);
+        DAO.getInstance().getCityDAO().save(item);
+        City result = DAO.getInstance().getCityDAO().findById(2L);
         assertThat(result.getName(), equalTo("Gomel"));
-
-        session.getTransaction().commit();
-        session.close();
     }
 }

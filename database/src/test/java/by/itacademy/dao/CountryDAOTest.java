@@ -14,15 +14,15 @@ public class CountryDAOTest extends BaseDAOTest {
 
     @Test
     public void get() throws Exception {
-        Country item = DAO.getInstance().countryDAO.findById(1L);
+        Country item = DAO.getInstance().getCountryDAO().findById(1L);
         assertThat(item.getName(), equalTo("Belarus"));
     }
 
     @Test
     public void create() throws Exception {
         Country item = new Country("Ukraine");
-        DAO.getInstance().countryDAO.save(item);
-        Country result = DAO.getInstance().countryDAO.findById(2L);
+        DAO.getInstance().getCountryDAO().save(item);
+        Country result = DAO.getInstance().getCountryDAO().findById(2L);
         assertThat(result.getName(), equalTo("Ukraine"));
     }
 }

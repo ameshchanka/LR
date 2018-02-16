@@ -297,3 +297,102 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_roomimages` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+-- -----------------------------------------------------
+-- INSERT VALUES
+-- -----------------------------------------------------
+INSERT INTO `lr`.`crm_roles` (`id`, `role`)
+VALUES
+(1, 'admin'),
+(2, 'manager'),
+(3, 'user');
+
+INSERT INTO `lr`.`crm_users` (`id`, `name`, `email`,
+`password`, `phoneNumber`, `skype`, `telegram`, `viber`)
+VALUES
+(1, 'NameAdmin', 'admin@admin.com', '123456789',
+ '+375291111111', 'admin_skype', 'admin_telegram', 'admin_viber'),
+(2, 'NameManager', 'manager@mail.com', '123456789',
+'+375292222222', 'manager_skype', 'manager_telegram', 'manager_viber'),
+(3, 'NameManager', 'manager2@mail.com', '123456789',
+'+375292222221', 'manager2_skype', 'manager2_telegram', 'manager2_viber'),
+(4, 'NameUser', 'user@user.com', '123456789',
+'+375293333333', 'user_skype', 'user_telegram', 'user_viber');
+
+INSERT INTO `lr`.`crm_users_roles` (`user_id`, `role_id`)
+VALUES
+(1, 1), (1, 2), (1, 3),
+(2, 2), (2, 3),
+(3, 2), (3, 3),
+(4, 3);
+
+INSERT INTO `lr`.`addr_countries` (`id`, `name`)
+VALUES
+(1, 'Belarus');
+
+INSERT INTO `lr`.`addr_cities` (`id`, `name`, `country_id`)
+VALUES
+(1, 'Minsk', 1);
+
+INSERT INTO `lr`.`addr_streets` (`id`, `name`, `city_id`)
+VALUES
+(1, 'Pobediteley', 1),
+(2, 'Prititskogo', 1);
+
+INSERT INTO `lr`.`addr_addresses` (`id`, `street_id`, `objectNumberStr`)
+VALUES
+(1, 1, '65'),
+(2, 2, '29');
+
+INSERT INTO `lr`.`lr_roomsobjects` (`id`, `name`, `lat`, `lng`, `address_id` )
+VALUES
+(1, 'Zamok', 53.9307475, 27.5178348, 1),
+(2, 'Tivalli', 53.908061, 27.484856, 2);
+
+INSERT INTO `lr`.`lr_rooms` (`id`, `name`, `square`, `roomsobject_id`, `user_id` )
+VALUES
+(1, 'A11', 300.5, 1, 2),
+(2, 'B22', 200.2, 1, 2),
+(3, 'C33', 500.0, 1, 2),
+(4, 'D44', 350.7, 1, 2),
+(5, 'E55', 430.1, 1, 2),
+(6, 'F66', 602.9, 1, 2),
+(7, 'G77', 804.8, 1, 2),
+(8, 'I88', 135.3, 1, 2),
+(9, 'H99', 779.4, 1, 2),
+(10, 'J1', 179.4, 2, 3),
+(11, 'K2', 279.4, 2, 3),
+(12, 'L3', 379.4, 2, 3),
+(13, 'M4', 479.4, 2, 3),
+(14, 'N5', 579.4, 2, 3),
+(15, 'O6', 679.4, 2, 3),
+(16, 'P7', 759.4, 2, 3),
+(17, 'Q8', 879.4, 2, 3),
+(18, 'R9', 979.4, 2, 3),
+(19, 'S10', 719.4, 2, 3),
+(20, 'T11', 739.4, 2, 3);
+
+INSERT INTO `lr`.`lr_leaseads` (`id`, `price`, `room_id` )
+VALUES
+(1, 1500.5, 1),
+(2, 900.9,  2),
+(3, 1800.9, 3),
+(4, 1282.9, 4),
+(5, 899.9, 5),
+(6, 1202.9, 6),
+(7, 1604.8, 7),
+(8, 608.3, 8),
+(9, 1100.4, 9),
+(10, 1100.4, 10),
+(11, 1100.4, 11),
+(12, 1100.4, 12),
+(13, 1100.4, 13),
+(14, 1100.4, 14),
+(15, 1100.4, 15),
+(16, 1100.4, 16),
+(17, 1100.4, 17),
+(18, 1100.4, 18),
+(19, 1100.4, 19),
+(20, 1100.4, 20);

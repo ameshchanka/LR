@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by a.meshchanka on 10.02.2018.
  */
-public abstract class BaseDAO<T extends BaseEntity> {
+public abstract class BaseDAO<T extends BaseEntity> implements IBaseDAO<T> {
 
     private Class<T> entityClass;
 
@@ -29,6 +29,7 @@ public abstract class BaseDAO<T extends BaseEntity> {
         return SESSION_FACTORY;
     }
 
+    @Override
     public Long save(T item) {
         Session session = SESSION_FACTORY.openSession();
         session.beginTransaction();
@@ -40,15 +41,15 @@ public abstract class BaseDAO<T extends BaseEntity> {
         return item.getId();
     }
 
+    @Override
     public boolean update(T item) {
         boolean result = true;
         Session session = SESSION_FACTORY.openSession();
         session.beginTransaction();
 
-        try{
+        try {
             session.update(item);
-        }
-        catch (HibernateException e){
+        } catch (HibernateException e) {
             result = false;
         }
 
@@ -57,15 +58,15 @@ public abstract class BaseDAO<T extends BaseEntity> {
         return result;
     }
 
-    public boolean delete(T item){
+    @Override
+    public boolean delete(T item) {
         boolean result = true;
         Session session = SESSION_FACTORY.openSession();
         session.beginTransaction();
 
-        try{
+        try {
             session.delete(item);
-        }
-        catch (HibernateException e){
+        } catch (HibernateException e) {
             result = false;
         }
 
@@ -74,6 +75,7 @@ public abstract class BaseDAO<T extends BaseEntity> {
         return result;
     }
 
+    @Override
     public T findById(Long id) {
         Session session = SESSION_FACTORY.openSession();
         session.beginTransaction();
@@ -85,6 +87,7 @@ public abstract class BaseDAO<T extends BaseEntity> {
         return result;
     }
 
+    @Override
     public List<T> findAll(String query) {
         Session session = SESSION_FACTORY.openSession();
         session.beginTransaction();

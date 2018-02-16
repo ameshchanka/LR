@@ -12,7 +12,7 @@ public class RoomsObjectInformationsDAO {
         return session.get(RoomsObjectInformation.class, id);
     }
 
-    public void create (Session session, RoomsObjectInformation item) {
+    public void create(Session session, RoomsObjectInformation item) {
         session.save(item);
     }
 }

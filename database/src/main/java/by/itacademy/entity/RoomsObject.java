@@ -4,8 +4,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,10 +29,10 @@ public class RoomsObject extends BaseEntity {
     private String name;
 
     @Column(name = "lat")
-    Float lat;
+    private Float lat;
 
     @Column(name = "lng")
-    Float lng;
+    private Float lng;
 
     @OneToOne
     @JoinColumn(name = "address_id", unique = true, nullable = false)
