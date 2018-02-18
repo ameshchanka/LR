@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = {"by.itacademy.services"})
-//@Import(DatabaseConfig.class)
 public class ServiceConfig {
 
 }
