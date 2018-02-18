@@ -1,4 +1,4 @@
-package by.itacademy.dao;
+package by.itacademy.interfaces;
 
 import by.itacademy.entity.BaseEntity;
 import java.util.List;

@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 public class LeaseDTO {
 
-    private List<LeaseAd> listLeaseAd = new ArrayList<>();
+    private List<LeaseAd> listLeaseAd = new ArrayList<LeaseAd>();
     private LeaseAdFilter filter = new LeaseAdFilter();
     private Long count;
     private PagingInfo pagingInfo = new PagingInfo();

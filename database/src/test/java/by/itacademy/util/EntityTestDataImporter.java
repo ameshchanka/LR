@@ -3,6 +3,7 @@ package by.itacademy.util;
 import by.itacademy.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -14,10 +15,28 @@ import java.util.HashSet;
  */
 public class EntityTestDataImporter {
 
+//    @Autowired
+//    private SessionFactory sessionFactory;
+
+    private int one = 0;
+
     private static EntityTestDataImporter IMPORTER;
 
     private EntityTestDataImporter() {
     }
+
+    public int getOne() {
+        return one;
+    }
+
+    public void setOne(int one) {
+        this.one = one;
+    }
+
+    //    @Autowired
+//    public EntityTestDataImporter(SessionFactory sessionFactory){
+//        this.sessionFactory = sessionFactory;
+//    }
 
     public static EntityTestDataImporter getInstance() {
         if (IMPORTER == null) {
@@ -31,7 +50,7 @@ public class EntityTestDataImporter {
     }
 
     public void importTestData(SessionFactory sessionFactory) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
 
         Country country = new Country("Belarus");
         session.save(country);
@@ -124,7 +143,7 @@ public class EntityTestDataImporter {
         RoomImage roomImage1 = new RoomImage(f2.getName(), r1);
         session.save(roomImage1);
 
-        session.close();
+//        session.close();
     }
 
     public File createFile(String name) {

@@ -18,7 +18,7 @@ public class PagerModel {
     
     public PagerModel(Long pageSize, int currentPage, Long totalItem) {
         int pageCount = (int) (Math.ceil((double) totalItem / pageSize));
-        pagerLinks = new ArrayList<>();
+        pagerLinks = new ArrayList<PagerLinks>();
         if (pageCount > 1) {
             int firstPageNumber = 1;
             if (pageCount > sittingNumber9) {
