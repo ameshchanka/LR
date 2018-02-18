@@ -8,6 +8,6 @@
 </br>
 <a href="<c:url value = "/index.jsp"/>" style="pointer-events: none; cursor: default; color: #999;">index.jsp</a></br>
 <a href="<c:url value = "/welcome"/>"> userWelcom.jsp</a></br>
-<a href="<c:url value = "/lease"/>"> 3rd check point (filter, paging)</a></br>
+<a href="<c:url value = "/lease"/>"> 4td check point (spring)</a></br>
 </body>
 </html>

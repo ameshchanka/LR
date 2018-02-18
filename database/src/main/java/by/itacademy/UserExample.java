@@ -10,7 +10,10 @@ public class UserExample {
 
     public User getFirstUser() {
 
-        User item = DAO.getInstance().getUserDAO().findById(1L);
+        User item = new User();
+        item.setName("Mike");
+        item.setEmail("admin@asdf.com");
+//        User item = DAO.getInstance().getUserDAO().findById(1L);
         return item;
     }
 }
