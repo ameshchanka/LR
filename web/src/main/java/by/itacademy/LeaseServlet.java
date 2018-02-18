@@ -3,8 +3,6 @@ package by.itacademy;
 import by.itacademy.dto.LeaseDTO;
 import by.itacademy.infrastructure.PagingInfo;
 import by.itacademy.interfaces.ILeaseService;
-import by.itacademy.services.LeaseService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

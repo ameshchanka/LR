@@ -1,6 +1,5 @@
 package by.itacademy;
 
-import by.itacademy.dao.DAO;
 import by.itacademy.entity.User;
 
 /**

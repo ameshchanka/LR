@@ -7,7 +7,6 @@ import by.itacademy.entity.forFilters.LeaseAdFilter;
 import by.itacademy.interfaces.ILeaseAdDAO;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,14 +17,14 @@ import java.util.List;
 @Repository
 public class LeaseAdDAO extends BaseDAO<LeaseAd> implements ILeaseAdDAO {
 
-    @Override
+
     public List<LeaseAd> findLeaseByFilter(LeaseAdFilter filter) {
         //SessionFactory sessionFactory = super.getSessionFactory();
         Session session = getSessionFactory().getCurrentSession();
         //session.beginTransaction();
 
         List<LeaseAd> result;
-        JPAQuery<LeaseAd> query = new JPAQuery<>(session);
+        JPAQuery<LeaseAd> query = new JPAQuery<LeaseAd>(session);
         QLeaseAd leaseAd = QLeaseAd.leaseAd;
         QRoom room = leaseAd.room;
         query.select(leaseAd)
@@ -61,14 +60,14 @@ public class LeaseAdDAO extends BaseDAO<LeaseAd> implements ILeaseAdDAO {
         return result;
     }
 
-    @Override
+
     public Long countLeaseByFilter(LeaseAdFilter filter) {
         //SessionFactory sessionFactory = super.getSessionFactory();
         Session session = getSessionFactory().getCurrentSession();
 //        session.beginTransaction();
         Long result;
 
-        JPAQuery<Long> query = new JPAQuery<>(session);
+        JPAQuery<Long> query = new JPAQuery<Long>(session);
         QLeaseAd leaseAd = QLeaseAd.leaseAd;
         QRoom room = leaseAd.room;
         query.select(leaseAd.count())

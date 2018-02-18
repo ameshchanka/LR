@@ -1,9 +1,7 @@
 package by.itacademy.config;
 
-import com.sun.scenario.effect.impl.prism.ps.PPSColorAdjustPeer;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

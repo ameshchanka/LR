@@ -2,26 +2,25 @@ package by.itacademy;
 
 import by.itacademy.config.DatabaseConfig;
 import by.itacademy.config.ServiceConfig;
-import org.hibernate.boot.jaxb.SourceType;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class ApplicationContextHolder {
 
-    private static AnnotationConfigApplicationContext APPLICATION_CONTEXT;
+    private static AnnotationConfigApplicationContext applicationContext;
 
     public static void init() {
-        System.out.println("APPLICATION_CONTEXT");
-        APPLICATION_CONTEXT = new AnnotationConfigApplicationContext(
+        System.out.println("applicationContext");
+        applicationContext = new AnnotationConfigApplicationContext(
                 DatabaseConfig.class,
                 ServiceConfig.class
         );
     }
 
     public static <T> T getBean(Class<T> beanClass) {
-        return APPLICATION_CONTEXT.getBean(beanClass);
+        return applicationContext.getBean(beanClass);
     }
 
     public static void destroy() {
-        APPLICATION_CONTEXT.close();
+        applicationContext.close();
     }
 }

@@ -1,7 +1,5 @@
 package by.itacademy.services;
 
-import by.itacademy.dao.DAO;
-import by.itacademy.dao.LeaseAdDAO;
 import by.itacademy.dto.LeaseDTO;
 import by.itacademy.interfaces.ILeaseAdDAO;
 import by.itacademy.interfaces.ILeaseService;
