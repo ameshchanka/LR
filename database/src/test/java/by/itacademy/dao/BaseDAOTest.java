@@ -6,13 +6,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.junit.After;
 import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by a.meshchanka on 04.02.2018.
  */
 public class BaseDAOTest {
 
-    protected static SessionFactory sessionFactory = BaseDAO.getSessionFactory();
+    @Autowired
+    protected static SessionFactory sessionFactory;// = BaseDAO.getSessionFactory();
     protected static EntityTestDataImporter IMPORTER = EntityTestDataImporter.getInstance();
 
     static {

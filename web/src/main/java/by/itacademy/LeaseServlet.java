@@ -2,6 +2,9 @@ package by.itacademy;
 
 import by.itacademy.dto.LeaseDTO;
 import by.itacademy.infrastructure.PagingInfo;
+import by.itacademy.interfaces.ILeaseService;
+import by.itacademy.services.LeaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +16,24 @@ import java.io.IOException;
 @WebServlet("/lease")
 public class LeaseServlet extends HttpServlet {
 
+    private ILeaseService leaseService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        ApplicationContextHolder.init();
+    }
+
+    @Override
+    public void destroy() {
+        ApplicationContextHolder.destroy();
+        super.destroy();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            LeaseService lease = new LeaseService();
+            //LeaseService lease = new LeaseService();
             LeaseDTO leaseDTO = new LeaseDTO();
             Float temp;
             Long tempLong;
@@ -55,7 +72,8 @@ public class LeaseServlet extends HttpServlet {
                 leaseDTO.getFilter().setFirstItems(tempLong);
             }
 
-            leaseDTO = lease.findLeaseByFilter(leaseDTO);
+            leaseService = ApplicationContextHolder.getBean(ILeaseService.class);
+            leaseDTO = leaseService.findLeaseByFilter(leaseDTO);
 
             tempInt = UtilRequest.getInt(req, "currentPage");
             leaseDTO.setPagingInfo(new PagingInfo(
