@@ -1,4 +1,4 @@
-package by.itacademy;
+package by.itacademy.exclude;
 
 import by.itacademy.config.DatabaseConfig;
 import by.itacademy.config.ServiceConfig;

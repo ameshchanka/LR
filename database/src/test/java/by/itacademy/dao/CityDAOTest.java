@@ -1,10 +1,10 @@
 package by.itacademy.dao;
 
 import by.itacademy.config.TestDatabaseConfig;
-import by.itacademy.entity.Address;
-import by.itacademy.entity.Street;
-import by.itacademy.interfaces.IAddressDAO;
-import by.itacademy.interfaces.IStreetDAO;
+import by.itacademy.entity.City;
+import by.itacademy.entity.Country;
+import by.itacademy.interfaces.ICityDAO;
+import by.itacademy.interfaces.ICountryDAO;
 import by.itacademy.util.BaseDAOTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,30 +17,30 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by a.meshchanka on 03.02.2018.
+ * Created by a.meshchanka on 04.02.2018.
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = TestDatabaseConfig.class)
 @Transactional
-public class AddressDAOTest extends BaseDAOTest {
+public class CityDAOTest extends BaseDAOTest {
 
     @Autowired
-    private IAddressDAO addressDAO;
+    private ICityDAO cityDAO;
     @Autowired
-    private IStreetDAO streetDAO;
+    private ICountryDAO countryDAO;
 
     @Test
     public void findById() throws Exception {
-        Address item = addressDAO.findById(1L);
-        assertThat(item.getObjectNumberStr(), equalTo("65"));
+        City item = cityDAO.findById(1L);
+        assertThat(item.getName(), equalTo("Minsk"));
     }
 
     @Test
     public void save() throws Exception {
-        Street temp = streetDAO.findById(2L);
-        Address item = new Address("38-79", temp);
-        addressDAO.save(item);
-        Address result = addressDAO.findById(5L);
-        assertThat(result.getObjectNumberStr(), equalTo("38-79"));
+        Country temp = countryDAO.findById(1L);
+        City item = new City("Gomel", temp);
+        cityDAO.save(item);
+        City result = cityDAO.findById(2L);
+        assertThat(result.getName(), equalTo("Gomel"));
     }
 }

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="css/web.css" rel="stylesheet">-->
+    <title>Title</title>
+</head>
+<body>
+<div class="container mycontainer">
+    <form name="form1" class="" role="form" th:action="@{/lease}" method="get">
+        <div class="panel panel-default filter">
+            <div class="panel-heading" th:text="#{filterName}">Filter</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <div class="form-group col-xs-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Min price, $</span>
+                                <input type="text" name="filter.priceMin" th:value="*{leaseDTO.filter.priceMin}"
+                                       class="form-control" placeholder="100.15">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Max price, $</span>
+                                <input type="text" name="filter.priceMax" th:value="*{leaseDTO.filter.priceMax}"
+                                       class="form-control" placeholder="300.35">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Count Items on the Page</span>
+                                <select id="countItems" th:field="*{leaseDTO.filter.countItems}" class="form-control">
+                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${1}">1</option>-->
+                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${5}">5</option>-->
+                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${10}">10</option>-->
+                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${50}">50</option>-->
+                                    <option th:each="item : ${leaseDTO.pagingInfo.itemsPerPageArray}"
+                                            th:value="${item}" th:text="${item}">1</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <div class="form-group col-xs-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Min square, m2</span>
+                                <input type="text" name="filter.squareMin" th:value="*{leaseDTO.filter.squareMin}"
+                                       class="form-control" placeholder="700.15">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Max square, m2</span>
+                                <input type="text" name="filter.squareMax" th:value="*{leaseDTO.filter.squareMax}"
+                                       class="form-control" placeholder="1200.35">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <div class="form-group col-xs-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Min $/m2</span>
+                                <input type="text" name="filter.pm2Min" th:value="*{leaseDTO.filter.pm2Min}" class="form-control" placeholder="50.15">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Max $/m2</span>
+                                <input type="text" name="filter.pm2Max" th:value="*{leaseDTO.filter.pm2Max}" class="form-control" placeholder="700.35">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-2">
+                        <button type="submit" th:text="#{filterFormSubmit}" class="btn btn-success btn-sm">Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <!-- TABLE -->
+        <div class="tab-content">
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Building</th>
+                        <th>Room Name</th>
+                        <th>Price</th>
+                        <th>Square</th>
+                        <th>price m2</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:if="${leaseDTO.listLeaseAd.size() > 0}">
+                        <th:block th:each="leaseAd : ${leaseDTO.listLeaseAd}">
+                            <tr class="">
+                                <td th:text="${leaseAd.room.roomsObject.name}">Building</td>
+                                <td th:text="${leaseAd.room.name}"></td>
+                                <td th:text="${leaseAd.price}"></td>
+                                <td th:text="${leaseAd.room.square}"></td>
+                                <td th:text="${leaseAd.room.square == null ? '' : leaseAd.price/leaseAd.room.square}"></td>
+                            </tr>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${leaseDTO.listLeaseAd.size() > 0}">
+                        <tr>
+                            <td>Нет элементов</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="center-block">
+                <input type="hidden" id="currentPage" th:field="${leaseDTO.pagingInfo.currentPage}"/>
+                <ul class="pagination">
+                    <th:block th:each="pg : ${leaseDTO.pagingInfo.pagerModel.pagerLinks}">
+                        <th:block th:if="${pg.getValue() == leaseDTO.pagingInfo.currentPage}">
+                            <li class="active" th:attr="data-value=${pg.getValue()}">
+                                <a href="#" class="" th:text="${pg.key}"><span class="sr-only">(current)</span></a>
+                            </li>
+                        </th:block>
+                        <th:block th:if="${pg.getValue() <= 0}">
+                            <li class="disabled"><a href="#" class="" th:text="${pg.key}"></a></li>
+                        </th:block>
+                        <th:block th:if="${pg.getValue() > 0 && pg.getValue() != leaseDTO.pagingInfo.currentPage}">
+                            <li th:attr="data-value=${pg.getValue()}"><a href="#" class="te-table-FnButton-Paging" th:text="${pg.key}"></a></li>
+                        </th:block>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- jQuery -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/web.js"></script>
+</body>
+</html>

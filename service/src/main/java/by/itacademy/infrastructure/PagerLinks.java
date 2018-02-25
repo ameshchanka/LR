@@ -12,5 +12,5 @@ import lombok.Setter;
 public class PagerLinks {
 
     private String key;
-    private int value;
+    private long value;
 }

@@ -32,6 +32,7 @@ public class LeaseService implements ILeaseService {
             result.setListLeaseAd(leaseAdDAO.findLeaseByFilter(leaseDTO.getFilter()));
         }
         result.setFilter(leaseDTO.getFilter());
+        //result.setPagingInfo(leaseDTO.getPagingInfo());
         return result;
     }
 }

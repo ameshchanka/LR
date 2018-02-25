@@ -1,4 +1,4 @@
-package by.itacademy;
+package by.itacademy.exclude;
 
 import by.itacademy.dto.LeaseDTO;
 import by.itacademy.infrastructure.PagingInfo;

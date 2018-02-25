@@ -16,7 +16,7 @@
 <h2><%= request.getAttribute("userExampleWelcome") %></h2>
 </br >
 </br>
-<a href="<c:url value = "/index.jsp"/>">index.jsp</a></br>
+<a href="<c:url value = "/WEB-INF/exclude/index.jsp"/>">index.jsp</a></br>
 <a href="<c:url value = "/welcome"/>" style="pointer-events: none; cursor: default; color: #999;">user.jsp</a></br>
 </body>
 </html>

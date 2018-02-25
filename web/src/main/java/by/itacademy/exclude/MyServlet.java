@@ -1,4 +1,6 @@
-package by.itacademy;
+package by.itacademy.exclude;
+
+import by.itacademy.UserExampleWelcome;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
