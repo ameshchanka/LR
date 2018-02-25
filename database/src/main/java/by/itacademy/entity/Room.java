@@ -38,14 +38,14 @@ public class Room extends BaseEntity {
     @Column(name = "square")
     private Float square;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "roomsobject_id")
     private RoomsObject roomsObject;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private Set<LeaseAd> leaseAds = new HashSet<LeaseAd>();
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

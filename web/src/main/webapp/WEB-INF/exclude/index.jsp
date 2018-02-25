@@ -6,7 +6,7 @@
 <h2>Hello World!</h2>
 </br>
 </br>
-<a href="<c:url value = "/index.jsp"/>" style="pointer-events: none; cursor: default; color: #999;">index.jsp</a></br>
+<a href="<c:url value = "/WEB-INF/exclude/index.jsp"/>" style="pointer-events: none; cursor: default; color: #999;">index.jsp</a></br>
 <a href="<c:url value = "/welcome"/>"> userWelcom.jsp</a></br>
 <a href="<c:url value = "/lease"/>"> 4td check point (spring)</a></br>
 </body>

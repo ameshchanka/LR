@@ -1,0 +1,17 @@
+<!--<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>-->
+<!--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>Index.html</h1>
+<h2>Hello World!</h2>
+</br>
+</br>
+<!--<a href="<c:url value = "/WEB-INF/exclude/index.jsp"/>" style="pointer-events: none; cursor: default; color: #999;">index.jsp</a></br>-->
+<!--<a href="<c:url value = "/welcome"/>"> userWelcom.jsp</a></br>-->
+<!--<a href="<c:url value = "/lease"/>"> 4td check point (spring)</a></br>-->
+<a th:href="@{/WEB-INF/templates/index.html}" style="pointer-events: none; cursor: default; color: #999;">index.html</a></br>
+<a href="/lease?language=en_US"> 5td check point: spring mvc, thymeleaf, Internationalization('Filter', 'Apply')</a></br>
+<a href="/lease?language=ru_RU"> 5-я контрольная точка: spring mvc, thymeleaf, Internationalization('Фильтр', 'Применить')</a></br>
+</body>
+</html>

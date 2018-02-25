@@ -38,7 +38,7 @@ public class Message extends BaseEntity {
     @JoinColumn(name = "recipient_id", nullable = false)
     private User recipient;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "leasead_id")
     private LeaseAd leaseAd;
 

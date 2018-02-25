@@ -4,6 +4,7 @@ import by.itacademy.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -18,37 +19,39 @@ public class EntityTestDataImporter {
 //    @Autowired
 //    private SessionFactory sessionFactory;
 
-    private int one = 0;
+    //private int one = 0;
 
     private static EntityTestDataImporter IMPORTER;
 
     private EntityTestDataImporter() {
     }
 
-    public int getOne() {
-        return one;
-    }
+    //public int getOne() {
+    //    return one;
+    //}
 
-    public void setOne(int one) {
-        this.one = one;
-    }
+    //public void setOne(int one) {
+    //    this.one = one;
+    //}
 
     //    @Autowired
 //    public EntityTestDataImporter(SessionFactory sessionFactory){
 //        this.sessionFactory = sessionFactory;
 //    }
 
-    public static EntityTestDataImporter getInstance() {
+    public static EntityTestDataImporter getInstance(SessionFactory sessionFactory) {
         if (IMPORTER == null) {
             synchronized (EntityTestDataImporter.class) {
                 if (IMPORTER == null) {
                     IMPORTER = new EntityTestDataImporter();
+                    IMPORTER.importTestData(sessionFactory);
                 }
             }
         }
         return IMPORTER;
     }
 
+    //@Transactional
     public void importTestData(SessionFactory sessionFactory) {
         Session session = sessionFactory.getCurrentSession();
 

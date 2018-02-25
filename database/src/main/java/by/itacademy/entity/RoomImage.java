@@ -22,7 +22,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "image_id")
 public class RoomImage extends Image {
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Room room;
 
     public RoomImage(String path, Room room) {
