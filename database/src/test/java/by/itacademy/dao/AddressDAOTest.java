@@ -20,8 +20,6 @@ import static org.junit.Assert.assertThat;
  * Created by a.meshchanka on 03.02.2018.
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = TestDatabaseConfig.class)
-@Transactional
 public class AddressDAOTest extends BaseDAOTest {
 
     @Autowired
@@ -30,13 +28,13 @@ public class AddressDAOTest extends BaseDAOTest {
     private IStreetDAO streetDAO;
 
     @Test
-    public void findById() throws Exception {
+    public void findById() {
         Address item = addressDAO.findById(1L);
         assertThat(item.getObjectNumberStr(), equalTo("65"));
     }
 
     @Test
-    public void save() throws Exception {
+    public void save() {
         Street temp = streetDAO.findById(2L);
         Address item = new Address("38-79", temp);
         addressDAO.save(item);

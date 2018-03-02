@@ -18,21 +18,19 @@ import static org.junit.Assert.assertThat;
  * Created by a.meshchanka on 04.02.2018.
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = TestDatabaseConfig.class)
-//@Transactional
 public class CountryDAOTest extends BaseDAOTest {
 
     @Autowired
     private ICountryDAO countryDAO;
 
     @Test
-    public void findById() throws Exception {
+    public void findById() {
         Country item = countryDAO.findById(1L);
         assertThat(item.getName(), equalTo("Belarus"));
     }
 
     @Test
-    public void save() throws Exception {
+    public void save() {
         Country item = new Country("Ukraine");
         countryDAO.save(item);
         Country result = countryDAO.findById(2L);
