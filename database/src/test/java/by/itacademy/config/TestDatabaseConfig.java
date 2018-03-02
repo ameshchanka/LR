@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(DatabaseConfig.class)
+@Import(PersistenceConfig.class)
 public class TestDatabaseConfig {
 
     @Value("${jdbc.url}")
@@ -32,7 +32,6 @@ public class TestDatabaseConfig {
     @Bean
     public EntityTestDataImporter entityTestDataCreator() {
         EntityTestDataImporter importer = new EntityTestDataImporter();
-        //importer.importTestData(sessionFactory);
         return  importer;
     }
 }

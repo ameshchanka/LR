@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-//@Configuration
-//@ComponentScan(basePackages = {"by.itacademy.dao", "by.itacademy.entity"})
-//@EnableTransactionManagement
-//@PropertySource("classpath:database.properties")
-//public class DatabaseConfig {
-//
+@Configuration
+@ComponentScan(basePackages = {"by.itacademy.repository", "by.itacademy.entity"})
+@EnableTransactionManagement
+@PropertySource("classpath:database.properties")
+public class DatabaseConfig {
+
 //    @Value("${jdbc.driver}")
 //    private String driverName;
 //
@@ -58,7 +58,7 @@ import java.util.Properties;
 //    public LocalSessionFactoryBean sessionFactory() {
 //        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 //        sessionFactoryBean.setDataSource(dataSource());
-//        sessionFactoryBean.setPackagesToScan("by.itacademy.entity", "by.itacademy.dao");
+//        sessionFactoryBean.setPackagesToScan("by.itacademy.entity", "by.itacademy.repository");
 //        sessionFactoryBean.setHibernateProperties(hibernateProperties());
 //        return sessionFactoryBean;
 //    }
@@ -79,4 +79,4 @@ import java.util.Properties;
 //        transactionManager.setSessionFactory(sessionFactory);
 //        return transactionManager;
 //    }
-//}
+}

@@ -20,7 +20,7 @@ public class EntityTestDataImporter {
         if (EntityTestDataImporter.onlyOneImportTestData == 0) {
             EntityTestDataImporter.onlyOneImportTestData ++;
 
-            Session session = sessionFactory.getCurrentSession();
+            Session session = sessionFactory.openSession(); //getCurrentSession();
 
             Country country = new Country("Belarus");
             session.save(country);
@@ -115,6 +115,7 @@ public class EntityTestDataImporter {
             File f2 = createFile("img_sc_zamok_room001.jpg");
             RoomImage roomImage1 = new RoomImage(f2.getName(), r1);
             session.save(roomImage1);
+            session.close();
             }
         }
 

@@ -1,7 +1,7 @@
 package by.itacademy.services;
 
 import by.itacademy.dto.LeaseDTO;
-import by.itacademy.interfaces.ILeaseAdDAO;
+import by.itacademy.repository.LeaseAdRepository;
 import by.itacademy.interfaces.ILeaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LeaseService implements ILeaseService {
 
-    private ILeaseAdDAO leaseAdDAO;
+    private LeaseAdRepository leaseAdDAO;
 
     @Autowired
-    public LeaseService(ILeaseAdDAO leaseAdDAO) {
+    public LeaseService(LeaseAdRepository leaseAdDAO) {
         this.leaseAdDAO = leaseAdDAO;
     }
 
