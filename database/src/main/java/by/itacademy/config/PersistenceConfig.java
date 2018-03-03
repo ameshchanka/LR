@@ -83,10 +83,10 @@ public class PersistenceConfig {
         return transactionManager;
     }
 
-    @Bean
-    public FactoryBean<SessionFactory> sessionFactory() {
-        HibernateJpaSessionFactoryBean factory = new HibernateJpaSessionFactoryBean();
-        factory.setEntityManagerFactory(entityManagerFactory().getObject());
-        return factory;
-    }
+//    @Bean
+//    public FactoryBean<SessionFactory> sessionFactory() {
+//        HibernateJpaSessionFactoryBean factory = new HibernateJpaSessionFactoryBean();
+//        factory.setEntityManagerFactory(entityManagerFactory().getObject());
+//        return factory;
+//    }
 }

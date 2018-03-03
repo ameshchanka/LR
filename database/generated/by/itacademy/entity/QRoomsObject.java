@@ -29,8 +29,6 @@ public class QRoomsObject extends EntityPathBase<RoomsObject> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final QRoomsObjectInformation info;
-
     public final NumberPath<Float> lat = createNumber("lat", Float.class);
 
     public final NumberPath<Float> lng = createNumber("lng", Float.class);
@@ -40,6 +38,8 @@ public class QRoomsObject extends EntityPathBase<RoomsObject> {
     public final SetPath<Room, QRoom> rooms = this.<Room, QRoom>createSet("rooms", Room.class, QRoom.class, PathInits.DIRECT2);
 
     public final SetPath<RoomsObjectImage, QRoomsObjectImage> roomsObjectImages = this.<RoomsObjectImage, QRoomsObjectImage>createSet("roomsObjectImages", RoomsObjectImage.class, QRoomsObjectImage.class, PathInits.DIRECT2);
+
+    public final QRoomsObjectInformation roomsObjectInformation;
 
     public QRoomsObject(String variable) {
         this(RoomsObject.class, forVariable(variable), INITS);
@@ -60,7 +60,7 @@ public class QRoomsObject extends EntityPathBase<RoomsObject> {
     public QRoomsObject(Class<? extends RoomsObject> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.address = inits.isInitialized("address") ? new QAddress(forProperty("address"), inits.get("address")) : null;
-        this.info = inits.isInitialized("info") ? new QRoomsObjectInformation(forProperty("info"), inits.get("info")) : null;
+        this.roomsObjectInformation = inits.isInitialized("roomsObjectInformation") ? new QRoomsObjectInformation(forProperty("roomsObjectInformation"), inits.get("roomsObjectInformation")) : null;
     }
 
 }

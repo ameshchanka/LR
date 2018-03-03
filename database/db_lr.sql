@@ -165,11 +165,11 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `lr`.`lr_roomsobjectinformations` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`lr_roomsobjectinformations` (
-  `roomsobject_id` BIGINT UNSIGNED NOT NULL,
+  `id` BIGINT UNSIGNED NOT NULL,
   `description` VARCHAR(4095) NULL DEFAULT NULL,
-  PRIMARY KEY (`roomsobject_id`),
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_roomsobjects_roomsobjectinformations`
-    FOREIGN KEY (`roomsobject_id`)
+    FOREIGN KEY (`id`)
     REFERENCES `lr`.`lr_roomsobjects` (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;

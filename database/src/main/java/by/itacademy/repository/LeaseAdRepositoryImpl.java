@@ -6,26 +6,27 @@ import by.itacademy.entity.QRoom;
 import by.itacademy.entity.forFilters.LeaseAdFilter;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
 
-    private SessionFactory sessionFactory;
+    private EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    public LeaseAdRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public LeaseAdRepositoryImpl(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     public List<LeaseAd> findLeaseByFilter(LeaseAdFilter filter) {
 
-        Session session = sessionFactory.getCurrentSession();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         List<LeaseAd> result;
-        JPAQuery<LeaseAd> query = new JPAQuery<LeaseAd>(session);
+        JPAQuery<LeaseAd> query = new JPAQuery<LeaseAd>(entityManager);
         QLeaseAd leaseAd = QLeaseAd.leaseAd;
         QRoom room = leaseAd.room;
         query.select(leaseAd)
@@ -61,10 +62,10 @@ public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
 
     public Long countLeaseByFilter(LeaseAdFilter filter) {
 
-        Session session = sessionFactory.getCurrentSession();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Long result;
 
-        JPAQuery<Long> query = new JPAQuery<Long>(session);
+        JPAQuery<Long> query = new JPAQuery<Long>(entityManager);
         QLeaseAd leaseAd = QLeaseAd.leaseAd;
         QRoom room = leaseAd.room;
         query.select(leaseAd.count())

@@ -4,13 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.OneToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"info", "rooms", "roomsObjectImages"})
+@ToString(exclude = {"roomsObjectInformation", "rooms", "roomsObjectImages"})
 @Entity
 @Table(name = "lr_roomsobjects")
 public class RoomsObject extends BaseEntity {
@@ -38,8 +33,8 @@ public class RoomsObject extends BaseEntity {
     @JoinColumn(name = "address_id", unique = true, nullable = false)
     private Address address;
 
-    @OneToOne(mappedBy = "roomsObject", fetch = FetchType.LAZY)
-    private RoomsObjectInformation info;
+    @OneToOne(mappedBy = "roomsObject", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private RoomsObjectInformation roomsObjectInformation;
 
     @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)
     private Set<Room> rooms = new HashSet<Room>();

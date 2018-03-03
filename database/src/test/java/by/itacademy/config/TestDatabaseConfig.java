@@ -30,8 +30,7 @@ public class TestDatabaseConfig {
     }
 
     @Bean
-    public EntityTestDataImporter entityTestDataCreator() {
-        EntityTestDataImporter importer = new EntityTestDataImporter();
-        return  importer;
+    public EntityTestDataImporter importer() {
+        return new EntityTestDataImporter();
     }
 }
