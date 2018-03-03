@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Table(name = "lr_messages")
 public class Message extends BaseEntity {
 
-    @Column(name = "text")
+    @Column(name = "text", length = 65535, columnDefinition = "TEXT")
     private String text;
 
     @Column(name = "dateSend")

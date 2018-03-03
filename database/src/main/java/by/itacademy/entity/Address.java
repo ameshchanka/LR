@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
 import javax.persistence.FetchType;
+import javax.persistence.Version;
 
 /**
  * Created by a.meshchanka on 02.02.2018.
