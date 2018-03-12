@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Admin</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <div class="container">
+        <div class="tab-content">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="row">
+                        <ul class="nav navbar-left nav-stacked">
+                            <li>G R U D</li>
+                            <li><a href="/admin/countries">Countries</a></li>
+                            <li><a href="/admin/cities">Cities</a></li>
+                            <li><a href="/admin/streets">Streets</a></li>
+                            <li><a href="/admin/addresses">Addresses</a></li>
+                            <li><a href="/admin/shoppingCenters">ShoppingCenters</a></li>
+                            <li><a href="/admin/rooms">Rooms</a></li>
+                            <li><a href="/admin/users">Users</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <th:block layout:fragment="adminContent"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</div>
+</body>
+</html>

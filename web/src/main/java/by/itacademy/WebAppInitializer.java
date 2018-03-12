@@ -1,6 +1,6 @@
 package by.itacademy;
 
-import by.itacademy.config.WebConfig;
+import by.itacademy.configs.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

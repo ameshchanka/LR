@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
 <head>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!--<link href="css/web.css" rel="stylesheet">-->
-    <title>Title</title>
+    <title>Lease Room</title>
 </head>
 <body>
-<div class="container mycontainer">
+<div class="container mycontainer" layout:fragment="content" th:remove="tag">
     <form name="form1" class="" role="form" th:action="@{/lease}" method="get">
         <div class="panel panel-default filter">
             <div class="panel-heading" th:text="#{filterName}">Filter</div>
@@ -31,10 +31,6 @@
                             <div class="input-group">
                                 <span class="input-group-addon">Count Items on the Page</span>
                                 <select id="countItems" th:field="*{leaseDTO.filter.countItems}" class="form-control">
-                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${1}">1</option>-->
-                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${5}">5</option>-->
-                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${10}">10</option>-->
-                                    <!--<option th:value="${leaseDTO.filter.countItems}" th:text="${50}">50</option>-->
                                     <option th:each="item : ${leaseDTO.pagingInfo.itemsPerPageArray}"
                                             th:value="${item}" th:text="${item}">1</option>
                                 </select>
@@ -119,37 +115,28 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-
-
-        <div class="container">
-            <div class="center-block">
-                <input type="hidden" id="currentPage" th:field="${leaseDTO.pagingInfo.currentPage}"/>
-                <ul class="pagination">
-                    <th:block th:each="pg : ${leaseDTO.pagingInfo.pagerModel.pagerLinks}">
-                        <th:block th:if="${pg.getValue() == leaseDTO.pagingInfo.currentPage}">
-                            <li class="active" th:attr="data-value=${pg.getValue()}">
-                                <a href="#" class="" th:text="${pg.key}"><span class="sr-only">(current)</span></a>
-                            </li>
+            <div class="container">
+                <div class="center-block">
+                    <input type="hidden" id="currentPage" th:field="${leaseDTO.pagingInfo.currentPage}"/>
+                    <ul class="pagination">
+                        <th:block th:each="pg : ${leaseDTO.pagingInfo.pagerModel.pagerLinks}">
+                            <th:block th:if="${pg.getValue() == leaseDTO.pagingInfo.currentPage}">
+                                <li class="active" th:attr="data-value=${pg.getValue()}">
+                                    <a href="#" class="" th:text="${pg.key}"><span class="sr-only">(current)</span></a>
+                                </li>
+                            </th:block>
+                            <th:block th:if="${pg.getValue() <= 0}">
+                                <li class="disabled"><a href="#" class="" th:text="${pg.key}"></a></li>
+                            </th:block>
+                            <th:block th:if="${pg.getValue() > 0 && pg.getValue() != leaseDTO.pagingInfo.currentPage}">
+                                <li th:attr="data-value=${pg.getValue()}"><a href="#" class="te-table-FnButton-Paging" th:text="${pg.key}"></a></li>
+                            </th:block>
                         </th:block>
-                        <th:block th:if="${pg.getValue() <= 0}">
-                            <li class="disabled"><a href="#" class="" th:text="${pg.key}"></a></li>
-                        </th:block>
-                        <th:block th:if="${pg.getValue() > 0 && pg.getValue() != leaseDTO.pagingInfo.currentPage}">
-                            <li th:attr="data-value=${pg.getValue()}"><a href="#" class="te-table-FnButton-Paging" th:text="${pg.key}"></a></li>
-                        </th:block>
-                    </th:block>
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
-
     </form>
 </div>
-
-<!-- jQuery -->
-<script src="js/jquery-1.10.2.min.js"></script>
-<!-- Bootstrap Core JavaScript -->
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/web.js"></script>
 </body>
 </html>

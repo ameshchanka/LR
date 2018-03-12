@@ -2,7 +2,7 @@ package by.itacademy.repository;
 
 import by.itacademy.entity.City;
 import by.itacademy.entity.Country;
-import by.itacademy.util.BaseRepositoryTest;
+import by.itacademy.security.BaseRepositoryTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

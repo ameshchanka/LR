@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +23,7 @@ public class Country extends BaseEntity {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     private Set<City> cities = new HashSet<City>();
 
     public Country(String name) {

@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ public class City extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 

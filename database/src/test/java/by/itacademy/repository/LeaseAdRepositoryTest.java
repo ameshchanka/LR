@@ -2,7 +2,7 @@ package by.itacademy.repository;
 
 import by.itacademy.entity.LeaseAd;
 import by.itacademy.entity.Room;
-import by.itacademy.util.BaseRepositoryTest;
+import by.itacademy.security.BaseRepositoryTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
