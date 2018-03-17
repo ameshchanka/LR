@@ -15,8 +15,8 @@ public class WebAspectConfig {
         return new RedirectErrorPage();
     }
 
-    @Bean
-    public MyLogger myLoggerAspect() {
-        return new MyLogger();
-    }
+    //@Bean
+    //public MyLogger myLoggerAspect() {
+    //    return new MyLogger();
+    //}
 }

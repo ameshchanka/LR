@@ -26,7 +26,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDto makeModelAddressPage() {
+    public AddressDto makeModelForAddressPage() {
         AddressDto addressDto = new AddressDto();
         addressDto.setAddresses(addressRepository.findAll());
         addressDto.setStreets(streetRepository.findAll());

@@ -45,7 +45,7 @@ public class Room extends BaseEntity {
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private Set<LeaseAd> leaseAds = new HashSet<LeaseAd>();
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

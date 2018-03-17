@@ -23,17 +23,7 @@ public class MyLogger {
 
     @AfterThrowing(pointcut = "loggerMethod()", throwing = "error")
     public void singAfterFail(JoinPoint joinPoint, Throwable error) throws Throwable  {
-//        log.warn(joinPoint.toLongString());
         log.error(joinPoint.toLongString() + error);
-//        log.fatal(joinPoint.toLongString() + error);
         System.out.println("Log4j from service ERROR");
     }
-
-//    @Around("loggerMethod()")
-//    public Object singAboutTheFight(ProceedingJoinPoint joinPoint) throws Throwable {
-//        System.out.println("Around " + joinPoint.getArgs()[0] + " starts!");
-//        Object result = joinPoint.proceed();
-//        System.out.println("Around ended!");
-//        return result;
-//    }
 }

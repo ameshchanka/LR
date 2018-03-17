@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>RoomsObjectInfo</title>
+</head>
+<body>
+<div class="container" layout:fragment="adminContent" th:remove="tag">
+    <div class="row">
+        <h3 th:text="#{conflictResolution}">Conflict resolution</h3>
+        <p th:text="#{optimisticLock} + 'RoomsObjects.roomsObjectInformation.description'">optimisticLock</p>
+    </div>
+    <div class="row">
+        <form th:id="'edit-roomsobjects-' + ${roomsObjectSave.id}" role="form" action="/admin/roomsobjectinfo/edit"
+              method="post">
+            <input type="hidden" name="id" th:value="${roomsObjectSave.id}"/>
+            <input type="hidden" name="version" th:value="${roomsObjectSave.roomsObjectInformation.version}"/>
+            <input type="hidden" name="roomsObject.id" th:value="${roomsObjectSave.id}"/>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <span class="input-group-addon" th:text="#{optimisticLock.savedDescription}">Save 'description'</span>
+                    <textarea name="description" title="description"
+                              class="form-control input-sm" rows="6"
+                              th:text="${roomsObjectSave.roomsObjectInformation == null ? '' : roomsObjectSave.roomsObjectInformation.description}">
+                    </textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-offset-1 col-xs-2">
+                    <button type="submit" th:text="#{button.save}" class="btn btn-info btn-sm">Save</button>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <span class="input-group-addon" th:text="#{optimisticLock.yourDescription}">Your description</span>
+                    <textarea name="null" title="yuor description" class="form-control input-sm" rows="6"
+                              th:text="${roomsObject.roomsObjectInformation == null ? '' : roomsObject.roomsObjectInformation.description}">
+                    </textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

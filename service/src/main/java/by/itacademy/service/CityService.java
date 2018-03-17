@@ -5,7 +5,7 @@ import by.itacademy.entity.City;
 
 public interface CityService {
 
-    CityDto makeModelCityPage();
+    CityDto makeModelForCityPage();
     void save(City item);
     void update(City item);
     void delete(long id);

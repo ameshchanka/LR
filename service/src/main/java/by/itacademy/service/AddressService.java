@@ -5,7 +5,7 @@ import by.itacademy.entity.Address;
 
 public interface AddressService {
 
-    AddressDto makeModelAddressPage();
+    AddressDto makeModelForAddressPage();
     void save(Address item);
     void update(Address item);
     void delete(long id);

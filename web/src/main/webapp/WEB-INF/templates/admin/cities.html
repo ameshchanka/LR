@@ -50,7 +50,7 @@
                         <th:block th:each="country:${cityDto.getCountries()}">
                             <option th:value="${country.id}"
                                     th:text="${country.name}"
-                                    th:selected="${ country.id== city.country.id}">
+                                    th:selected="${country.id == city.country.id}">
                             </option>
                         </th:block>
                     </select>

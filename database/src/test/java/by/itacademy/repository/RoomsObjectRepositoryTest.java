@@ -2,6 +2,7 @@ package by.itacademy.repository;
 
 import by.itacademy.entity.Address;
 import by.itacademy.entity.RoomsObject;
+import by.itacademy.entity.RoomsObjectInformation;
 import by.itacademy.security.BaseRepositoryTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,8 +33,12 @@ public class RoomsObjectRepositoryTest extends BaseRepositoryTest {
     public void create() throws Exception {
         Address temp = addressRepository.findOne(4L);
         RoomsObject item = new RoomsObject("Skala", temp);
+        item.setRoomsObjectInformation(
+                new RoomsObjectInformation("DADADA", item));
         roomsObjectRepository.save(item);
         RoomsObject result = roomsObjectRepository.findOne(4L);
+        System.out.println(result.getRoomsObjectInformation().getDescription());
+        System.out.println(result.getRoomsObjectInformation().getId());
         assertThat(result.getName(), equalTo("Skala"));
     }
 }

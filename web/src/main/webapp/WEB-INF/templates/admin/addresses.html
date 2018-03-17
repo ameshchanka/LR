@@ -51,7 +51,7 @@
                         <th:block th:each="street:${addressDto.streets}">
                             <option th:value="${street.id}"
                                     th:text="${street.name + ', ' + street.city.name + ', ' +street.city.country.name}"
-                                    th:selected="${ address.id== address.street.id}">
+                                    th:selected="${street.id == address.street.id}">
                             </option>
                         </th:block>
                     </select>

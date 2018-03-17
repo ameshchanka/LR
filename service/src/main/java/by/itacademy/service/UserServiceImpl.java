@@ -1,6 +1,8 @@
 package by.itacademy.service;
 
+import by.itacademy.dto.UserDto;
 import by.itacademy.entity.Role;
+import by.itacademy.repository.RoleRepository;
 import by.itacademy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,20 +22,50 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
-    UserServiceImpl(UserRepository userRepository/*, PasswordEncoder passwordEncoder*/) {
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-        //this.passwordEncoder = passwordEncoder;
+    }
+    @Autowired
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public void save(by.itacademy.entity.User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDto makeModelForUsersPage() {
+        UserDto dto = new UserDto();
+        dto.setUsers(userRepository.findAll());
+        roleRepository.findAll().forEach(dto.getRoles() :: add);
+        return dto;
+    }
+
+    @Override
+    public void adRole(by.itacademy.entity.User item) {
+        by.itacademy.entity.User user = userRepository.findOne(item.getId());
+        Role r = roleRepository.findByRole(item.getRoles().stream().findFirst().get().getRole());
+        user.getRoles().add(r);
+                //roleRepository.findByRole(item.getRoles().stream().findFirst().toString()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void delete(long id) {
+        userRepository.delete(id);
     }
 
     @Override

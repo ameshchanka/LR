@@ -1,21 +1,23 @@
-package by.itacademy.entity.forFilters;
+package by.itacademy.dto.filters;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LeaseAdFilter {
+public class LeaseFilterDto {
 
-    private final Long countInit = 5L;
+    //private final Long countInit = 5L;
     private Float priceMin;
     private Float priceMax;
     private Float squareMin;
     private Float squareMax;
     private Float pm2Min;
     private Float pm2Max;
-    private Long countItems;
-    private Long firstItems = 0L;
+    //private Long countItems;
+    //private Long firstItems = 0L;
 
     public Float getPriceMin() {
         return priceMin;
@@ -41,13 +43,13 @@ public class LeaseAdFilter {
         return pm2Max;
     }
 
-    public Long getCountItems() {
-        return countItems;
-    }
-
-    public Long getFirstItems() {
-        return firstItems;
-    }
+//    public Long getCountItems() {
+//        return countItems;
+//    }
+//
+//    public Long getFirstItems() {
+//        return firstItems;
+//    }
 
     public void setPriceMin(Float priceMin) {
         this.priceMin = priceMin;
@@ -73,15 +75,15 @@ public class LeaseAdFilter {
         this.pm2Max = pm2Max;
     }
 
-    public void setCountItems(Long countItems) {
-        this.countItems = countItems;
-    }
-
-    public void setFirstItems(Long firstItems) {
-        this.firstItems = (firstItems - 1) * countItems;
-    }
-
-    public LeaseAdFilter() {
-        this.countItems = this.countInit;
-    }
+//    public void setCountItems(Long countItems) {
+//        this.countItems = countItems;
+//    }
+//
+//    public void setFirstItems(Long firstItems) {
+//        this.firstItems = (firstItems - 1) * countItems;
+//    }
+//
+//    public LeaseFilterDto() {
+//        this.countItems = this.countInit;
+//    }
 }

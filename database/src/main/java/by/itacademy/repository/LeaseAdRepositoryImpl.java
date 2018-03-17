@@ -1,10 +1,15 @@
 package by.itacademy.repository;
 
+import by.itacademy.dto.LeaseAdDto;
+import by.itacademy.dto.LeaseRoomsDto;
+import by.itacademy.dto.filters.LeaseFilterDto;
 import by.itacademy.entity.LeaseAd;
 import by.itacademy.entity.QLeaseAd;
 import by.itacademy.entity.QRoom;
-import by.itacademy.entity.forFilters.LeaseAdFilter;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
+import org.springframework.cache.annotation.Cacheable;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -14,9 +19,13 @@ public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<LeaseAd> findLeaseByFilter(LeaseAdFilter filter) {
-
+    @Override
+    //@Cacheable(key = "#root.target", cacheNames = "lease")
+    public List<LeaseAd> findLeaseRoomsByModel(LeaseRoomsDto leaseRoomsDto) {
         List<LeaseAd> result;
+        LeaseFilterDto filter = leaseRoomsDto.getFilter();
+        Long offsetNumber = (leaseRoomsDto.getPaging().getCurrentPage() - 1) * leaseRoomsDto.getPaging().getItemsPerPage();
+
         JPAQuery<LeaseAd> query = new JPAQuery<LeaseAd>(entityManager);
         QLeaseAd leaseAd = QLeaseAd.leaseAd;
         QRoom room = leaseAd.room;
@@ -44,17 +53,17 @@ public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
         }
 
         result = query
-                .offset(filter.getFirstItems())
-                .limit(filter.getCountItems())
+                .offset(offsetNumber)
+                .limit(leaseRoomsDto.getPaging().getItemsPerPage())
                 .fetchResults()
                 .getResults();
         return result;
     }
 
-    public Long countLeaseByFilter(LeaseAdFilter filter) {
-
-        //EntityManager entityManager = entityManagerFactory.createEntityManager();
+    @Override
+    public Long countLeaseRoomsByModel(LeaseRoomsDto leaseRoomsDto) {
         Long result;
+        LeaseFilterDto filter = leaseRoomsDto.getFilter();
 
         JPAQuery<Long> query = new JPAQuery<Long>(entityManager);
         QLeaseAd leaseAd = QLeaseAd.leaseAd;
@@ -80,6 +89,44 @@ public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
         if (filter.getPm2Max() != null) {
             query.where(room.square.isNotNull()
                     .and(leaseAd.price.divide(room.square).lt(filter.getPm2Max())));
+        }
+
+        result = query.fetchOne();
+        return result;
+    }
+
+    @Override
+    public Iterable<LeaseAd> findLeaseAdByModel(LeaseAdDto leaseAdDto) {
+        Iterable<LeaseAd> result;
+        Long offsetNumber = (leaseAdDto.getPaging().getCurrentPage() - 1) * leaseAdDto.getPaging().getItemsPerPage();
+        String roomName = leaseAdDto.getFilter().getRoomName();
+
+        JPAQuery<LeaseAd> query = new JPAQuery<LeaseAd>(entityManager);
+        QLeaseAd leaseAd = QLeaseAd.leaseAd;
+        query.select(leaseAd)
+                .from(leaseAd);
+        if (roomName != null && !roomName.isEmpty()) {
+            query.where(leaseAd.room.name.like(Expressions.asString(roomName).concat("%")));
+        }
+        result = query
+                .offset(offsetNumber)
+                .limit(leaseAdDto.getPaging().getItemsPerPage())
+                .fetchResults()
+                .getResults();
+        return result;
+    }
+
+    @Override
+    public Long countLeaseAdByModel(LeaseAdDto leaseAdDto) {
+        Long result;
+        String roomName = leaseAdDto.getFilter().getRoomName();
+
+        JPAQuery<Long> query = new JPAQuery<Long>(entityManager);
+        QLeaseAd leaseAd = QLeaseAd.leaseAd;
+        query.select(leaseAd.count())
+                .from(leaseAd);
+        if (roomName != null && !roomName.isEmpty()) {
+            query.where(leaseAd.room.name.like(Expressions.asString(roomName).concat("%")));
         }
 
         result = query.fetchOne();

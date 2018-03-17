@@ -1,7 +1,7 @@
 package by.itacademy.dto;
 
 import by.itacademy.entity.LeaseAd;
-import by.itacademy.entity.forFilters.LeaseAdFilter;
+import by.itacademy.dto.filters.LeaseFilterDto;
 import by.itacademy.infrastructure.PagingInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +17,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LeaseDTO {
+public class LeaseRoomsDto {
 
-    private List<LeaseAd> listLeaseAd = new ArrayList<LeaseAd>();
-    private LeaseAdFilter filter = new LeaseAdFilter();
+    private List<LeaseAd> leaseAds = new ArrayList<LeaseAd>();
+    private LeaseFilterDto filter = new LeaseFilterDto();
     private Long count;
-    private PagingInfo pagingInfo = new PagingInfo();
+    private PagingInfo paging = new PagingInfo();
 
 
-    //private int s = listLeaseAd.size()
+    //private int s = leaseAds.size()
 }

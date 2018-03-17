@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PagerModel {
+class PagerModel {
 
     private final int settingNumber4 = 4;
     private final int settingNumber6 = 6;

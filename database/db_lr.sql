@@ -167,6 +167,7 @@ DROP TABLE IF EXISTS `lr`.`lr_roomsobjectinformations` ;
 CREATE TABLE IF NOT EXISTS `lr`.`lr_roomsobjectinformations` (
   `id` BIGINT UNSIGNED NOT NULL,
   `description` VARCHAR(4095) NULL DEFAULT NULL,
+  `version` BIGINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_roomsobjects_roomsobjectinformations`
     FOREIGN KEY (`id`)
@@ -191,10 +192,12 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_rooms` (
   INDEX `fk_users_rooms_idx` (`user_id` ASC),
   CONSTRAINT `fk_roomsobjects_rooms`
     FOREIGN KEY (`roomsobject_id`)
-    REFERENCES `lr`.`lr_roomsobjects` (`id`),
+    REFERENCES `lr`.`lr_roomsobjects` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_users_rooms`
     FOREIGN KEY (`user_id`)
-    REFERENCES `lr`.`crm_users` (`id`))
+    REFERENCES `lr`.`crm_users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -214,7 +217,8 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_leaseads` (
   INDEX `fk_rooms_leaseads_idx` (`room_id` ASC),
   CONSTRAINT `fk_rooms_leaseads`
     FOREIGN KEY (`room_id`)
-    REFERENCES `lr`.`lr_rooms` (`id`))
+    REFERENCES `lr`.`lr_rooms` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -236,13 +240,16 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_messages` (
   INDEX `fk_leaseads_messages_idx` (`leasead_id` ASC),
   CONSTRAINT `fk_users_messages_sender`
     FOREIGN KEY (`sender_id`)
-    REFERENCES `lr`.`crm_users` (`id`),
+    REFERENCES `lr`.`crm_users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_users_messages_recipient`
     FOREIGN KEY (`recipient_id`)
-    REFERENCES `lr`.`crm_users` (`id`),
+    REFERENCES `lr`.`crm_users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_leaseads_messages`
     FOREIGN KEY (`leasead_id`)
-    REFERENCES `lr`.`lr_leaseads` (`id`))
+    REFERENCES `lr`.`lr_leaseads` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE)
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
@@ -350,6 +357,11 @@ INSERT INTO `lr`.`lr_roomsobjects` (`id`, `name`, `lat`, `lng`, `address_id` )
 VALUES
 (1, 'Zamok', 53.9307475, 27.5178348, 1),
 (2, 'Tivalli', 53.908061, 27.484856, 2);
+
+INSERT INTO `lr`.`lr_roomsobjectinformations` (`id`, `description`)
+VALUES
+  (1, 'Торговый центр Замок – новый уровень шопинга и развлечений! К вашим услугам - магазины, кафе и рестораны, ледовый каток, кинотеатр, детский зал.'),
+  (2, 'Современный Многофункциональный Торгово-Развлекательный Бизнес Комплекс. Представляет собой мощный проект, подчёркивающий современный этап развития Минска в качестве столицы европейского государства.');
 
 INSERT INTO `lr`.`lr_rooms` (`id`, `name`, `square`, `roomsobject_id`, `user_id` )
 VALUES

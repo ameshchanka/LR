@@ -26,7 +26,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityDto makeModelCityPage() {
+    public CityDto makeModelForCityPage() {
         CityDto cityDto = new CityDto();
         cityDto.setCities(cityRepository.findAll());
         cityDto.setCountries(countryRepository.findAll());

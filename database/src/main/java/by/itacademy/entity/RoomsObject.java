@@ -33,7 +33,8 @@ public class RoomsObject extends BaseEntity {
     @JoinColumn(name = "address_id", unique = true, nullable = false)
     private Address address;
 
-    @OneToOne(mappedBy = "roomsObject", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "roomsObject", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
     private RoomsObjectInformation roomsObjectInformation;
 
     @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)

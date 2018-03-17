@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>RoomsObjects</title>
+</head>
+<body>
+<div class="container" layout:fragment="adminContent" th:remove="tag">
+    <div class="row">
+        <h3>RoomsObjects</h3>
+    </div>
+    <div class="row">
+        <form class="create-roomsobjects-0" role="form" action="/admin/roomsobjects/create" method="post">
+            <div class="row">
+                <div class="form-group col-xs-1">
+                    <input type="hidden" name="id" value="0" class="form-control input-sm" title="ID"/>
+                    <input type="hidden" name="roomsObjectInformation.version" value="0" class="form-control input-sm" title="ID"/>
+                </div>
+                <div class="form-group col-xs-3">
+                    <input type="text" name="name" class="form-control input-sm" title="Name"/>
+                </div>
+                <div class="form-group col-xs-6">
+                    <select name="address.id" class="form-control input-sm" title="Address">
+                        <th:block th:each="address:${roomsObjectDto.addresses}">
+                            <option th:value="${address.id}"
+                                    th:text="${address.street.name + ',' + address.objectNumberStr + '; ' + address.street.city.name + ', ' +address.street.city.country.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <textarea name="roomsObjectInformation.description" title="description"
+                              class="form-control input-sm" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-2">
+                    <input type="text" name="lat" title="lat" class="form-control input-sm"/>
+                </div>
+                <div class="form-group col-xs-2">
+                    <input type="text" name="lng" title="lng" class="form-control input-sm"/>
+                </div>
+                <div class="form-group col-xs-offset-1 col-xs-3">
+                    <button type="submit" name="create" value="create" class="btn btn-success btn-sm">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr/>
+    <th:block th:each="roomsObject: ${roomsObjectDto.roomsObjects}">
+        <div class="row">
+            <form th:id="'edit-roomsobjects-' + ${roomsObject.id}" role="form" action="/admin/roomsobjects/edit" method="post">
+                <div class="row">
+                    <div class="form-group col-xs-1">
+                        <input type="text" name="id" th:value="${roomsObject.id}" class="form-control input-sm" title="ID" disabled/>
+                        <input type="hidden" name="id" th:value="${roomsObject.id}"/>
+                        <input type="hidden" name="roomsObjectInformation.version" th:value="${roomsObject.roomsObjectInformation.version}"/>
+                    </div>
+                    <div class="form-group col-xs-3">
+                        <input type="text" name="name" th:value="${roomsObject.name}" class="form-control input-sm"/>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <select name="address.id" class="form-control input-sm">
+                            <th:block th:each="address:${roomsObjectDto.addresses}">
+                                <option th:value="${address.id}"
+                                        th:text="${address.street.name + ',' + address.objectNumberStr + '; ' + address.street.city.name + ', ' +address.street.city.country.name}"
+                                        th:selected="${address.id == roomsObject.address.id}">
+                                </option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-8">
+                        <textarea name="roomsObjectInformation.description" title="description"
+                                  class="form-control input-sm" rows="3"
+                                  th:text="${roomsObject.roomsObjectInformation == null ? '' : roomsObject.roomsObjectInformation.description}">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-2">
+                        <input type="text" name="lat" title="lat" class="form-control input-sm" th:value="${roomsObject.lat}"/>
+                    </div>
+                    <div class="form-group col-xs-2">
+                        <input type="text" name="lng" title="lng" class="form-control input-sm" th:value="${roomsObject.lng}"/>
+                    </div>
+                    <div class="form-group col-xs-offset-1 col-xs-2">
+                        <button type="submit" name="update" value="update" class="btn btn-warning btn-sm">Update</button>
+                    </div>
+                    <div class="form-group col-xs-2">
+                        <button type="submit" th:form="'delete-roomsobjects-' + ${roomsObject.id}" name="delete" value="delete" class="btn btn-danger btn-sm">Delete</button>
+                    </div>
+                </div>
+            </form>
+            <form th:id="'delete-roomsobjects-' + ${roomsObject.id}" role="form" action="/admin/roomsobjects/delete" method="post">
+                <input type="hidden" name="id" th:value="${roomsObject.id}" class="form-control input-sm"/>
+            </form>
+        </div>
+        <hr/>
+    </th:block>
+</div>
+</body>
+</html>

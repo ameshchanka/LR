@@ -25,7 +25,7 @@ public class StreetServiceImpl implements StreetService {
     }
 
     @Override
-    public StreetDto makeModelStreetPage() {
+    public StreetDto makeModelForStreetPage() {
         StreetDto streetDto = new StreetDto();
         streetDto.setCities(cityRepository.findAll());
         streetDto.setStreets(streetRepository.findAll());
