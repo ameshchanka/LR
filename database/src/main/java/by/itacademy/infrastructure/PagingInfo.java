@@ -21,14 +21,21 @@ public class PagingInfo {
         this.itemsPerPage = checkNullAndZero(itemsPerPage)
                 ? (long)SELECT_ITEMSPERPAGE_DEFAULT[2] : itemsPerPage;
         this.currentPage = checkNullAndZero(currentPage)
-                ? 1L : ((this.countItems / this.itemsPerPage < currentPage)
+                ? 1L : (countItemsMultipleItemsPerPage(this.countItems, this.itemsPerPage) < currentPage
                     ? 1L : currentPage);
-        this.totalPage = this.countItems % this.itemsPerPage == 0
-                ? (this.countItems / this.itemsPerPage) : (this.countItems / this.itemsPerPage + 1);
+        this.totalPage = countItemsMultipleItemsPerPage(this.countItems, this.itemsPerPage);
         this.pagerModel = new PagerModel(this.itemsPerPage, this.currentPage, this.countItems);
     }
 
     private boolean checkNullAndZero(Long number) {
         return number == null || number == 0L;
+    }
+
+    private long countItemsMultipleItemsPerPage(Long countItems, Long itemsPerPage) {
+        if(countItems % itemsPerPage == 0) {
+            return countItems / itemsPerPage;
+        }
+        return countItems / itemsPerPage + 1;
+
     }
 }
