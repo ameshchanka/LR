@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Owner</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <div class="container">
+        <div class="tab-content">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="row">
+                        <ul class="nav navbar-left nav-stacked">
+                            <li><a href="/owner/rooms">Rooms</a></li>
+                            <!--<li><a href="/admin/cities">Cities</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <th:block layout:fragment="ownerContent"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</div>
+</body>
+</html>
