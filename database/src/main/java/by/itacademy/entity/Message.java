@@ -30,15 +30,15 @@ public class Message extends BaseEntity {
     @Column(name = "dateSend")
     private LocalDateTime dateSend;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "recipient_id", nullable = false)
     private User recipient;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "leasead_id")
     private LeaseAd leaseAd;
 

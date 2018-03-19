@@ -41,7 +41,7 @@ public class LeaseAd extends BaseEntity {
     @Column(name = "dateStopLease")
     private LocalDateTime dateStopLease;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 

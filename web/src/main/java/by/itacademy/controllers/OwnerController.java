@@ -2,6 +2,7 @@ package by.itacademy.controllers;
 
 import by.itacademy.aspects.ErrorCatcher;
 import by.itacademy.dto.RoomDto;
+import by.itacademy.dto.RoomUpdateDto;
 import by.itacademy.entity.Room;
 import by.itacademy.entity.User;
 import by.itacademy.service.RoomService;
@@ -64,11 +65,11 @@ public class OwnerController {
 
     @ErrorCatcher
     @PostMapping("/owner/rooms/edit")
-    public String updateRoom(RedirectAttributes attr, Room room) {
+    public String updateRoom(RedirectAttributes attr, RoomUpdateDto dto) {
         //room.setUser(getAuthenticationUser());
-        room.setUser(new User());                       // альтернатива
-        room.getUser().setEmail("manager@mail.com");    // коду выше
-        roomService.update(room);
+        dto.getRoom().setUser(new User());                       // альтернатива
+        dto.getRoom().getUser().setEmail("manager@mail.com");    // коду выше
+        roomService.update(dto);
         return "redirect:/owner/rooms";
     }
 
@@ -94,11 +95,9 @@ public class OwnerController {
     }
 
     private User getAuthenticationUser() {
-        User user = new User();
-        user.setEmail(SecurityContextHolder
+        return (User)SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getPrincipal().toString());
-        return user;
+                .getPrincipal();
     }
 }

@@ -34,13 +34,12 @@ public class RoomsObject extends BaseEntity {
     private Address address;
 
     @OneToOne(mappedBy = "roomsObject", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //@PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
     private RoomsObjectInformation roomsObjectInformation;
 
-    @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "roomsObject", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private Set<Room> rooms = new HashSet<Room>();
 
-    @OneToMany(mappedBy = "roomsObject", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "roomsObject", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<RoomsObjectImage> roomsObjectImages = new HashSet<RoomsObjectImage>();
 
     public RoomsObject(String name, Address address) {

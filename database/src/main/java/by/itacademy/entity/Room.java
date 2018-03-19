@@ -40,18 +40,18 @@ public class Room extends BaseEntity {
     @Column(name = "square")
     private Float square;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "roomsobject_id")
     private RoomsObject roomsObject;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<LeaseAd> leaseAds = new HashSet<LeaseAd>();
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<RoomImage> roomImages = new HashSet<RoomImage>();
 
     public Room(String name, Float square, RoomsObject roomsObject, User user) {

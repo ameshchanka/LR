@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -51,7 +52,7 @@ public class User extends BaseEntity {
     )
     private Set<Role> roles = new HashSet<Role>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private Set<Room> rooms = new HashSet<Room>();
 
     public User(String name, String email, String password, Contact contact, Set<Role> roles) {

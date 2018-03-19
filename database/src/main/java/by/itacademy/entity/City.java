@@ -35,11 +35,11 @@ public class City extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city", cascade = {CascadeType.PERSIST})
     private Set<Street> streets = new HashSet<Street>();
 
     public City(String name, Country country) {

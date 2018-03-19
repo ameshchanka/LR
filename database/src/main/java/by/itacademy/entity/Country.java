@@ -23,7 +23,7 @@ public class Country extends BaseEntity {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "country", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private Set<City> cities = new HashSet<City>();
 
     public Country(String name) {

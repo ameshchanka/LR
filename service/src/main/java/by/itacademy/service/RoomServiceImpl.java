@@ -1,15 +1,18 @@
 package by.itacademy.service;
 
 import by.itacademy.dto.RoomDto;
+import by.itacademy.dto.RoomUpdateDto;
+import by.itacademy.entity.LeaseAd;
 import by.itacademy.entity.Room;
-import by.itacademy.entity.User;
+import by.itacademy.repository.LeaseAdRepository;
 import by.itacademy.repository.RoomRepository;
 import by.itacademy.repository.RoomsObjectRepository;
 import by.itacademy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.cache.annotation.Cacheable;
+
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -18,6 +21,7 @@ public class RoomServiceImpl implements RoomService {
     private RoomRepository roomRepository;
     private RoomsObjectRepository roomsObjectRepository;
     private UserRepository userRepository;
+    private LeaseAdRepository leaseAdRepository;
 
     @Autowired
     public void setRoomRepository(RoomRepository roomRepository) {
@@ -30,6 +34,10 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    @Autowired
+    public void setLeaseAdRepository(LeaseAdRepository leaseAdRepository) {
+        this.leaseAdRepository = leaseAdRepository;
     }
 
     @Override
@@ -47,9 +55,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void update(Room item) {
-        item.setUser(userRepository.findByEmail(item.getUser().getEmail()));
-        roomRepository.save(item);
+    public void update(RoomUpdateDto dto) {
+        dto.getRoom().setUser(userRepository.findByEmail(dto.getRoom().getUser().getEmail()));
+        LeaseAd leaseAdItem = leaseAdRepository.findOne(dto.getLeaseAd().getId());
+        if(leaseAdItem != null) {
+            leaseAdItem.setPrice(dto.getLeaseAd().getPrice());
+        } else {
+            leaseAdItem = new LeaseAd();
+            leaseAdItem.setPrice(dto.getLeaseAd().getPrice());
+            leaseAdItem.setDateStartLease(LocalDateTime.now());
+        }
+        leaseAdRepository.save(leaseAdItem);
+        roomRepository.save(dto.getRoom());
     }
 
     @Override

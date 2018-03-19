@@ -34,11 +34,11 @@ public class Address extends BaseEntity {
     @Column(name = "objectNumberStr", nullable = false)
     private String objectNumberStr;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "street_id")
     private Street street;
 
-    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     private RoomsObject roomsObject;
 
     public Address(String objectNumberStr, Street street) {
