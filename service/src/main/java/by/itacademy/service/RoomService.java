@@ -9,4 +9,6 @@ public interface RoomService {
     void save(Room item);
     void update(Room item);
     void delete(long id);
+    void startlease(long id);
+    void stoplease(long id);
 }
