@@ -1,5 +1,6 @@
 package by.itacademy.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = {"leaseAds", "roomImages"})
 @Entity
 @Table(
@@ -38,18 +40,18 @@ public class Room extends BaseEntity {
     @Column(name = "square")
     private Float square;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "roomsobject_id")
     private RoomsObject roomsObject;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<LeaseAd> leaseAds = new HashSet<LeaseAd>();
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<RoomImage> roomImages = new HashSet<RoomImage>();
 
     public Room(String name, Float square, RoomsObject roomsObject, User user) {

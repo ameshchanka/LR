@@ -165,11 +165,12 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `lr`.`lr_roomsobjectinformations` ;
 
 CREATE TABLE IF NOT EXISTS `lr`.`lr_roomsobjectinformations` (
-  `roomsobject_id` BIGINT UNSIGNED NOT NULL,
+  `id` BIGINT UNSIGNED NOT NULL,
   `description` VARCHAR(4095) NULL DEFAULT NULL,
-  PRIMARY KEY (`roomsobject_id`),
+  `version` BIGINT UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_roomsobjects_roomsobjectinformations`
-    FOREIGN KEY (`roomsobject_id`)
+    FOREIGN KEY (`id`)
     REFERENCES `lr`.`lr_roomsobjects` (`id`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
@@ -191,10 +192,12 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_rooms` (
   INDEX `fk_users_rooms_idx` (`user_id` ASC),
   CONSTRAINT `fk_roomsobjects_rooms`
     FOREIGN KEY (`roomsobject_id`)
-    REFERENCES `lr`.`lr_roomsobjects` (`id`),
+    REFERENCES `lr`.`lr_roomsobjects` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_users_rooms`
     FOREIGN KEY (`user_id`)
-    REFERENCES `lr`.`crm_users` (`id`))
+    REFERENCES `lr`.`crm_users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -214,7 +217,8 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_leaseads` (
   INDEX `fk_rooms_leaseads_idx` (`room_id` ASC),
   CONSTRAINT `fk_rooms_leaseads`
     FOREIGN KEY (`room_id`)
-    REFERENCES `lr`.`lr_rooms` (`id`))
+    REFERENCES `lr`.`lr_rooms` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -236,13 +240,16 @@ CREATE TABLE IF NOT EXISTS `lr`.`lr_messages` (
   INDEX `fk_leaseads_messages_idx` (`leasead_id` ASC),
   CONSTRAINT `fk_users_messages_sender`
     FOREIGN KEY (`sender_id`)
-    REFERENCES `lr`.`crm_users` (`id`),
+    REFERENCES `lr`.`crm_users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_users_messages_recipient`
     FOREIGN KEY (`recipient_id`)
-    REFERENCES `lr`.`crm_users` (`id`),
+    REFERENCES `lr`.`crm_users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_leaseads_messages`
     FOREIGN KEY (`leasead_id`)
-    REFERENCES `lr`.`lr_leaseads` (`id`))
+    REFERENCES `lr`.`lr_leaseads` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE)
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
@@ -306,19 +313,19 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 INSERT INTO `lr`.`crm_roles` (`id`, `role`)
 VALUES
 (1, 'admin'),
-(2, 'manager'),
+(2, 'owner'),
 (3, 'user');
 
 INSERT INTO `lr`.`crm_users` (`id`, `name`, `email`,
 `password`, `phoneNumber`, `skype`, `telegram`, `viber`)
 VALUES
-(1, 'NameAdmin', 'admin@admin.com', '123456789',
+(1, 'NameAdmin', 'admin@admin.com', '$2a$10$Hrydn4ljFkKong6gjpoGmeDqOzOxPDBmXeqcb4FMBxCcZCZb8o5wO',
  '+375291111111', 'admin_skype', 'admin_telegram', 'admin_viber'),
-(2, 'NameManager', 'manager@mail.com', '123456789',
+(2, 'NameManager', 'manager@mail.com', '$2a$10$Hrydn4ljFkKong6gjpoGmeDqOzOxPDBmXeqcb4FMBxCcZCZb8o5wO',
 '+375292222222', 'manager_skype', 'manager_telegram', 'manager_viber'),
-(3, 'NameManager', 'manager2@mail.com', '123456789',
+(3, 'NameManager', 'manager2@mail.com', '$2a$10$Hrydn4ljFkKong6gjpoGmeDqOzOxPDBmXeqcb4FMBxCcZCZb8o5wO',
 '+375292222221', 'manager2_skype', 'manager2_telegram', 'manager2_viber'),
-(4, 'NameUser', 'user@user.com', '123456789',
+(4, 'NameUser', 'user@user.com', '$2a$10$Hrydn4ljFkKong6gjpoGmeDqOzOxPDBmXeqcb4FMBxCcZCZb8o5wO',
 '+375293333333', 'user_skype', 'user_telegram', 'user_viber');
 
 INSERT INTO `lr`.`crm_users_roles` (`user_id`, `role_id`)
@@ -351,6 +358,11 @@ VALUES
 (1, 'Zamok', 53.9307475, 27.5178348, 1),
 (2, 'Tivalli', 53.908061, 27.484856, 2);
 
+INSERT INTO `lr`.`lr_roomsobjectinformations` (`id`, `description`)
+VALUES
+  (1, 'Торговый центр Замок – новый уровень шопинга и развлечений! К вашим услугам - магазины, кафе и рестораны, ледовый каток, кинотеатр, детский зал.'),
+  (2, 'Современный Многофункциональный Торгово-Развлекательный Бизнес Комплекс. Представляет собой мощный проект, подчёркивающий современный этап развития Минска в качестве столицы европейского государства.');
+
 INSERT INTO `lr`.`lr_rooms` (`id`, `name`, `square`, `roomsobject_id`, `user_id` )
 VALUES
 (1, 'A11', 300.5, 1, 2),
@@ -374,25 +386,28 @@ VALUES
 (19, 'S10', 719.4, 2, 3),
 (20, 'T11', 739.4, 2, 3);
 
-INSERT INTO `lr`.`lr_leaseads` (`id`, `price`, `room_id` )
+INSERT INTO `lr`.`lr_leaseads` (`id`, `price`, `room_id`,`dateStartLease`,`dateStopLease`)
 VALUES
-(1, 1500.5, 1),
-(2, 900.9,  2),
-(3, 1800.9, 3),
-(4, 1282.9, 4),
-(5, 899.9, 5),
-(6, 1202.9, 6),
-(7, 1604.8, 7),
-(8, 608.3, 8),
-(9, 1100.4, 9),
-(10, 1100.4, 10),
-(11, 1100.4, 11),
-(12, 1100.4, 12),
-(13, 1100.4, 13),
-(14, 1100.4, 14),
-(15, 1100.4, 15),
-(16, 1100.4, 16),
-(17, 1100.4, 17),
-(18, 1100.4, 18),
-(19, 1100.4, 19),
-(20, 1100.4, 20);
+  (1, 1500.5, 1,'2012-05-19', null),
+  (2, 900.9,  2,'2012-05-25', null),
+  (3, 1800.9, 3, '2011-02-13', '2012-04-16'),
+  (4, 1202.9, 6, null, null),
+  (5, 1604.8, 7, null, null),
+  (6, 608.3, 8, null, null),
+  (7, 1100.4, 9, null, null),
+  (8, 1100.4, 10, null, null),
+  (9, 1100.4, 11, null, null),
+  (10, 1100.4, 12, null, null),
+  (11, 1100.4, 13, null, null),
+  (12, 1100.4, 14, null, null),
+  (13, 1100.4, 15, null, null),
+  (14, 1100.4, 16, null, null),
+  (15, 1100.4, 17, null, null),
+  (16, 1100.4, 18, null, null),
+  (17, 1100.4, 19, null, null),
+  (18, 1100.4, 20, null, null);
+INSERT INTO `lr`.`lr_leaseads` (`id`, `price`, `room_id`,`dateStartLease`,`dateStopLease`)
+VALUES
+  (19, 1300.5, 1, '2010-11-15', '2011-01-23' ),
+  (20, 1300.5, 2, '2011-01-29', '2011-11-24' ),
+  (21, 1300.5, 1, '2011-02-13', '2012-04-16' );

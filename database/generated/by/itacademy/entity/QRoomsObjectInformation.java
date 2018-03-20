@@ -28,6 +28,8 @@ public class QRoomsObjectInformation extends EntityPathBase<RoomsObjectInformati
 
     public final QRoomsObject roomsObject;
 
+    public final NumberPath<Long> version = createNumber("version", Long.class);
+
     public QRoomsObjectInformation(String variable) {
         this(RoomsObjectInformation.class, forVariable(variable), INITS);
     }

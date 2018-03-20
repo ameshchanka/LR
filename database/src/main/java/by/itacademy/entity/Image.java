@@ -23,7 +23,7 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Image extends BaseEntity {
 
-    @Column(name = "path", length = 65535, nullable = false)
+    @Column(name = "path", nullable = false, length = 65535, columnDefinition = "TEXT")
     private String path;
 
     public Image(String path) {

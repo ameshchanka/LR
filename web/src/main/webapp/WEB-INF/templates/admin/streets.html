@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Streets</title>
+</head>
+<body>
+<div class="container" layout:fragment="adminContent" th:remove="tag">
+    <div class="row">
+        <h3>Streets</h3>
+    </div>
+    <div class="row">
+        <form class="create-street-0" role="form" action="/admin/streets/create" method="post">
+            <div class="row">
+                <div class="form-group col-xs-1">
+                    <input type="hidden" name="id" value="0" class="form-control input-sm" title="ID"/>
+                </div>
+                <div class="form-group col-xs-4">
+                    <input type="text" name="name" class="form-control input-sm"/>
+                </div>
+                <div class="form-group col-xs-3">
+                    <select name="city.id" class="form-control input-sm">
+                        <th:block th:each="city:${streetDto.cities}">
+                            <option th:value="${city.id}" th:text="${city.name + ', ' + city.country.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="form-group col-xs-2">
+                    <button type="submit" id="create" name="create" value="create" class="btn btn-success btn-sm">Create
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr/>
+    <th:block th:each="street: ${streetDto.streets}">
+        <div class="row">
+            <form th:id="'edit-street-' + ${street.id}" role="form" action="/admin/streets/edit" method="post">
+                <div class="form-group col-xs-1">
+                    <input type="text" name="id" th:value="${street.id}" class="form-control input-sm" title="ID"
+                           disabled/>
+                    <input type="hidden" name="id" th:value="${street.id}" class="form-control input-sm" title="ID"/>
+                </div>
+                <div class="form-group col-xs-3">
+                    <input type="text" name="name" th:value="${street.name}" class="form-control input-sm"/>
+                </div>
+                <div class="form-group col-xs-3">
+                    <select name="city.id" class="form-control input-sm">
+                        <th:block th:each="city:${streetDto.cities}">
+                            <option th:value="${city.id}"
+                                    th:text="${city.name + ', ' + city.country.name}"
+                                    th:selected="${ city.id== street.city.id}">
+                            </option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="form-group col-xs-3">
+                    <button type="submit" id="update" name="update" value="update" class="btn btn-warning btn-sm">
+                        Update
+                    </button>
+                </div>
+            </form>
+            <form th:id="'delete-street-' + ${street.id}" role="form" action="/admin/streets/delete" method="post">
+                <input type="hidden" name="id" th:value="${street.id}" class="form-control input-sm"/>
+                <button type="submit" id="delete" name="delete" value="delete" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </div>
+        <hr/>
+    </th:block>
+</div>
+</body>
+</html>

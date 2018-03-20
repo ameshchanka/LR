@@ -34,11 +34,11 @@ public class Street extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 
-    @OneToMany(mappedBy = "street")
+    @OneToMany(mappedBy = "street", cascade = {CascadeType.PERSIST})
     private Set<Address> addresses = new HashSet<Address>();
 
     public Street(String name, City city) {

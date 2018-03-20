@@ -1,16 +1,15 @@
 package by.itacademy.entity;
 
-import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
@@ -24,21 +23,21 @@ import java.time.LocalDateTime;
 @Table(name = "lr_messages")
 public class Message extends BaseEntity {
 
-    @Column(name = "text")
+    @Column(name = "text", length = 65535, columnDefinition = "TEXT")
     private String text;
 
     @Column(name = "dateSend")
     private LocalDateTime dateSend;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "recipient_id", nullable = false)
     private User recipient;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "leasead_id")
     private LeaseAd leaseAd;
 

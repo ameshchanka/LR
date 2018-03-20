@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/web.css" rel="stylesheet">
+    <title layout:title-pattern="$CONTENT_TITLE">Layout</title>
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="row">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Lease rooms</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/leaserooms">Lease</a></li>
+                    <th:block th:if="${#authorization.expression('hasAuthority(''admin'')')}">
+                        <li><a href="/admin">Admin</a></li>
+                    </th:block>
+                    <th:block th:if="${#authorization.expression('hasAuthority(''owner'')')}">
+                        <li><a href="/owner">Owner</a></li>
+                    </th:block>
+                    <th:block th:unless="${#authorization.expression('hasRole(''ANONYMOUS'')')}">
+                        <li class="navbar-text" th:text="${#authentication.getName()}"></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </th:block>
+                    <th:block th:if="${#authorization.expression('hasRole(''ANONYMOUS'')')}">
+                        <li><a href="/login">Login</a></li>
+                    </th:block>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+    </div><!-- /.row -->
+</nav>
+<div class="container">
+    <th:block layout:fragment="content"/>
+</div>
+<!-- jQuery -->
+<script src="/js/jquery-1.10.2.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/web.js"></script>
+</body>
+</html>
