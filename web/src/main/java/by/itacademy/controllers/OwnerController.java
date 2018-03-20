@@ -3,6 +3,7 @@ package by.itacademy.controllers;
 import by.itacademy.aspects.ErrorCatcher;
 import by.itacademy.dto.RoomDto;
 import by.itacademy.dto.RoomUpdateDto;
+import by.itacademy.dto.UserDetailDto;
 import by.itacademy.entity.Room;
 import by.itacademy.entity.User;
 import by.itacademy.service.RoomService;
@@ -34,31 +35,31 @@ public class OwnerController {
     @ErrorCatcher
     @GetMapping("/owner/rooms")
     public String showRoomsPage(RedirectAttributes attr, Model model, RoomDto roomDto) {
-        //roomDto.getUser().setEmail(getAuthenticationUser().getEmail());
-        roomDto.getUser().setEmail("manager@mail.com");// альтернатива коду выше
+        roomDto.getUser().setEmail(getAuthenticationUserEmail());
+        //roomDto.setUser(getAuthenticationUser());
+        //roomDto.getUser().setEmail("manager@mail.com");// альтернатива коду выше
 
         RoomDto dto = roomService.makeModelForRoomsPage(roomDto);
         model.addAttribute("roomDto", dto);
         return "owner/rooms";
     }
-//<form class="edit-room-0" role="form" th:action="@{/owner/rooms/create}" method="post">
-//     <form th:id="'edit-room-' + ${room.id}" role="form" action="/owner/rooms/edit" method="post">
-//<form th:id="'delete-room-' + ${room.id}" role="form" action="/owner/rooms/delete" method="post">
-//                <input type="hidden" name="id" th:value="${room.id}"/>
-//            </form>
-//            <form th:id="'start-lease-' + ${room.id}" role="form" action="/owner/rooms/startlease" method="post">
-//                <input type="hidden" name="id" th:value="${room.id}"/>
-//            </form>
-//            <form th:id="'stop-lease-' + ${room.id}" role="form" action="/owner/rooms/stoplease" method="post">
-//                <input type="hidden" name="id" th:value="${room.id}"/>
-//            </form>
 
     @ErrorCatcher
     @PostMapping("/owner/rooms/create")
     public String createRoom(RedirectAttributes attr, Room room) {
-        //room.setUser(getAuthenticationUser());
-        room.setUser(new User());                       // альтернатива
-        room.getUser().setEmail("manager@mail.com");    // коду выше
+        room.setUser(new User());
+        room.getUser().setEmail(getAuthenticationUserEmail());
+//        User u1 = (User)SecurityContextHolder
+//                .getContext()
+//                .getAuthentication()
+//                .getPrincipal();
+//        room.getUser()
+//                .setEmail(SecurityContextHolder
+//                        .getContext()
+//                        .getAuthentication()
+//                        .getPrincipal().toString());
+        //room.setUser(new User());                       // альтернатива
+        //room.getUser().setEmail("manager@mail.com");    // коду выше
         roomService.save(room);
         return "redirect:/owner/rooms";
     }
@@ -66,9 +67,15 @@ public class OwnerController {
     @ErrorCatcher
     @PostMapping("/owner/rooms/edit")
     public String updateRoom(RedirectAttributes attr, RoomUpdateDto dto) {
-        //room.setUser(getAuthenticationUser());
-        dto.getRoom().setUser(new User());                       // альтернатива
-        dto.getRoom().getUser().setEmail("manager@mail.com");    // коду выше
+//        String u1 = SecurityContextHolder
+//                .getContext()
+//                .getAuthentication()
+//                .getDetails().toString();
+        dto.getRoom().setUser(new User());
+        dto.getRoom().getUser().setEmail(getAuthenticationUserEmail());
+        //dto.getRoom().setUser(getAuthenticationUser());
+        //dto.getRoom().setUser(new User());                       // альтернатива
+        //dto.getRoom().getUser().setEmail("manager@mail.com");    // коду выше
         roomService.update(dto);
         return "redirect:/owner/rooms";
     }
@@ -94,10 +101,12 @@ public class OwnerController {
         return "redirect:/owner/rooms";
     }
 
-    private User getAuthenticationUser() {
-        return (User)SecurityContextHolder
+    private String getAuthenticationUserEmail() {
+        org.springframework.security.core.userdetails.User user
+                = (org.springframework.security.core.userdetails.User)SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
+        return user.getUsername();
     }
 }

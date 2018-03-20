@@ -62,8 +62,8 @@ public class RoomServiceImpl implements RoomService {
             leaseAdItem.setPrice(dto.getLeaseAd().getPrice());
         } else {
             leaseAdItem = new LeaseAd();
+            leaseAdItem.setRoom(dto.getRoom());
             leaseAdItem.setPrice(dto.getLeaseAd().getPrice());
-            leaseAdItem.setDateStartLease(LocalDateTime.now());
         }
         leaseAdRepository.save(leaseAdItem);
         roomRepository.save(dto.getRoom());
@@ -76,11 +76,15 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void startlease(long id) {
-
+        LeaseAd leaseAdItem = leaseAdRepository.findOne(id);
+        leaseAdItem.setDateStartLease(LocalDateTime.now());
+        leaseAdRepository.save(leaseAdItem);
     }
 
     @Override
     public void stoplease(long id) {
-
+        LeaseAd leaseAdItem = leaseAdRepository.findOne(id);
+        leaseAdItem.setDateStopLease(LocalDateTime.now());
+        leaseAdRepository.save(leaseAdItem);
     }
 }

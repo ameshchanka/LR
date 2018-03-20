@@ -44,7 +44,8 @@
             <form th:id="'edit-room-' + ${room.id}" role="form" action="/owner/rooms/edit" method="post">
                 <div class="row">
                     <div class="form-group col-xs-1">
-                        <input type="text" name="room.id" th:value="${room.id}" class="form-control input-sm" title="ID" disabled/>
+                        <input type="text" name="room.id" th:value="${room.id}" class="form-control input-sm" title="ID"
+                               disabled/>
                         <input type="hidden" name="room.id" th:value="${room.id}"/>
                         <input type="hidden" name="room.roomsObject.id" th:value="${room.roomsObject.id}"/>
                     </div>
@@ -73,8 +74,8 @@
                     </th:block>
                     <th:block th:if="${room.leaseAds.size() == 0}">
                         <div class="form-group col-xs-2">
-                            <input type="hidden" name="leaseAd.id" th:value="${0}"/>
-                            <input type="text" name="leaseAd.price" th:value="${0}" placeholder="0" title="price"
+                            <input type="hidden" name="leaseAd.id" value="0"/>
+                            <input type="text" name="leaseAd.price" value="0" placeholder="0" title="price"
                                    class="form-control input-sm"/>
                         </div>
                         <div class="form-group col-xs-2">
@@ -102,15 +103,21 @@
                                 th:value="#{button.delete}" class="btn btn-danger btn-sm">Delete
                         </button>
                         <th:block th:if="${room.leaseAds.size() == 1}" th:each="leaseAd : ${room.leaseAds}">
-                            <th:block th:if="${leaseAd.dateStartLease == null}">
+                            <th:block th:if="${leaseAd.price != null}">
+                                <input th:form="'start-lease-' + ${room.id}" type="hidden" name="id"
+                                       th:value="${leaseAd.id}"/>
                                 <button type="submit" th:form="'start-lease-' + ${room.id}"
                                         th:value="#{button.dateStartLease}" class="btn btn-info btn-sm">StartLease
                                 </button>
+                                <th:block th:if="${leaseAd.dateStartLease != null}">
+                                    <input th:form="'stop-lease-' + ${room.id}" type="hidden" name="id"
+                                           th:value="${leaseAd.id}"/>
+                                    <button type="submit" th:form="'stop-lease-' + ${room.id}"
+                                            th:value="#{button.dateStopLease}" class="btn btn-danger btn-sm">StopLease
+                                    </button>
+                                </th:block>
                             </th:block>
                         </th:block>
-                        <button type="submit" th:form="'stop-lease-' + ${room.id}"
-                                th:value="#{button.dateStopLease}" class="btn btn-danger btn-sm">StopLease
-                        </button>
                     </div>
                 </div>
             </form>
@@ -118,40 +125,38 @@
                 <input type="hidden" name="id" th:value="${room.id}"/>
             </form>
             <form th:id="'start-lease-' + ${room.id}" role="form" action="/owner/rooms/startlease" method="post">
-                <input type="hidden" name="id" th:value="${room.id}"/>
             </form>
             <form th:id="'stop-lease-' + ${room.id}" role="form" action="/owner/rooms/stoplease" method="post">
-                <input type="hidden" name="id" th:value="${room.id}"/>
             </form>
             <hr/>
         </th:block>
 
         <!--&lt;!&ndash;Paging&ndash;&gt;-->
         <!--<div class="container">-->
-            <!--<div class="center-block">-->
-                <!--<th:block th:if="${leaseAdDto.count > 0}">-->
-                    <!--<input th:form="'form-filter-paging'" type="hidden" id="currentPage" name="paging.currentPage"-->
-                           <!--th:value="${leaseAdDto.paging.currentPage}"/>-->
-                    <!--<ul class="pagination">-->
-                        <!--<th:block th:each="pg : ${leaseAdDto.paging.pagerModel.pagerLinks}">-->
-                            <!--<th:block th:if="${pg.getValue() == leaseAdDto.paging.currentPage}">-->
-                                <!--<li class="active" th:attr="data-value=${pg.getValue()}">-->
-                                    <!--<a href="#" class="" th:text="${pg.key}"><span class="sr-only">(current)</span></a>-->
-                                <!--</li>-->
-                            <!--</th:block>-->
-                            <!--<th:block th:if="${pg.getValue() <= 0}">-->
-                                <!--<li class="disabled"><a href="#" class="" th:text="${pg.key}"></a></li>-->
-                            <!--</th:block>-->
-                            <!--<th:block-->
-                                    <!--th:if="${pg.getValue() > 0 && pg.getValue() != leaseAdDto.paging.currentPage}">-->
-                                <!--<li th:attr="data-value=${pg.getValue()}">-->
-                                    <!--<a href="#" class="form-filter-paging-FnButton-Paging" th:text="${pg.key}"></a>-->
-                                <!--</li>-->
-                            <!--</th:block>-->
-                        <!--</th:block>-->
-                    <!--</ul>-->
-                <!--</th:block>-->
-            <!--</div>-->
+        <!--<div class="center-block">-->
+        <!--<th:block th:if="${leaseAdDto.count > 0}">-->
+        <!--<input th:form="'form-filter-paging'" type="hidden" id="currentPage" name="paging.currentPage"-->
+        <!--th:value="${leaseAdDto.paging.currentPage}"/>-->
+        <!--<ul class="pagination">-->
+        <!--<th:block th:each="pg : ${leaseAdDto.paging.pagerModel.pagerLinks}">-->
+        <!--<th:block th:if="${pg.getValue() == leaseAdDto.paging.currentPage}">-->
+        <!--<li class="active" th:attr="data-value=${pg.getValue()}">-->
+        <!--<a href="#" class="" th:text="${pg.key}"><span class="sr-only">(current)</span></a>-->
+        <!--</li>-->
+        <!--</th:block>-->
+        <!--<th:block th:if="${pg.getValue() <= 0}">-->
+        <!--<li class="disabled"><a href="#" class="" th:text="${pg.key}"></a></li>-->
+        <!--</th:block>-->
+        <!--<th:block-->
+        <!--th:if="${pg.getValue() > 0 && pg.getValue() != leaseAdDto.paging.currentPage}">-->
+        <!--<li th:attr="data-value=${pg.getValue()}">-->
+        <!--<a href="#" class="form-filter-paging-FnButton-Paging" th:text="${pg.key}"></a>-->
+        <!--</li>-->
+        <!--</th:block>-->
+        <!--</th:block>-->
+        <!--</ul>-->
+        <!--</th:block>-->
+        <!--</div>-->
         <!--</div>-->
         <!--&lt;!&ndash;End paging&ndash;&gt;-->
     </div>
