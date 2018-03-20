@@ -26,8 +26,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <!--<li><a href="do?command=resetdb">ResetDB</a></li>-->
-                    <li><a href="/lease">Lease</a></li>
+                    <li><a href="/leaserooms">Lease</a></li>
                     <th:block th:if="${#authorization.expression('hasAuthority(''admin'')')}">
                         <li><a href="/admin">Admin</a></li>
                     </th:block>
