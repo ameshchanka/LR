@@ -13,6 +13,6 @@ import lombok.ToString;
 @ToString
 public class RoomsObjectDto {
 
-    Iterable<RoomsObject> roomsObjects;
-    Iterable<Address> addresses;
+    private Iterable<RoomsObject> roomsObjects;
+    private Iterable<Address> addresses;
 }

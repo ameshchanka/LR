@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PagingInfo {
 
-    private final int[] SELECT_ITEMSPERPAGE_DEFAULT = new int[] {1, 5, 10, 20, 50 , 100};
+    private final int[] selectItemsperpageDefault = new int[] {1, 5, 10, 20, 50 , 100};
     private PagerModel pagerModel;
     private Long countItems;
     private Long itemsPerPage;
@@ -19,7 +19,7 @@ public class PagingInfo {
     public PagingInfo(Long countItems, Long itemsPerPage, Long currentPage) {
         this.countItems = countItems;
         this.itemsPerPage = checkNullAndZero(itemsPerPage)
-                ? (long)SELECT_ITEMSPERPAGE_DEFAULT[2] : itemsPerPage;
+                ? (long) selectItemsperpageDefault[2] : itemsPerPage;
         this.currentPage = checkNullAndZero(currentPage)
                 ? 1L : (countItemsMultipleItemsPerPage(this.countItems, this.itemsPerPage) < currentPage
                     ? 1L : currentPage);
@@ -32,7 +32,7 @@ public class PagingInfo {
     }
 
     private long countItemsMultipleItemsPerPage(Long countItems, Long itemsPerPage) {
-        if(countItems % itemsPerPage == 0) {
+        if (countItems % itemsPerPage == 0) {
             return countItems / itemsPerPage;
         }
         return countItems / itemsPerPage + 1;

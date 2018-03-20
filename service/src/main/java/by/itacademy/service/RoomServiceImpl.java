@@ -58,7 +58,7 @@ public class RoomServiceImpl implements RoomService {
     public void update(RoomUpdateDto dto) {
         dto.getRoom().setUser(userRepository.findByEmail(dto.getRoom().getUser().getEmail()));
         LeaseAd leaseAdItem = leaseAdRepository.findOne(dto.getLeaseAd().getId());
-        if(leaseAdItem != null) {
+        if (leaseAdItem != null) {
             leaseAdItem.setPrice(dto.getLeaseAd().getPrice());
         } else {
             leaseAdItem = new LeaseAd();

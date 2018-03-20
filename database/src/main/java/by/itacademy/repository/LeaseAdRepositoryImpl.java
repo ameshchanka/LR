@@ -8,7 +8,6 @@ import by.itacademy.entity.QLeaseAd;
 import by.itacademy.entity.QRoom;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
-import org.springframework.cache.annotation.Cacheable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,7 +19,6 @@ public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    //@Cacheable(key = "#root.target", cacheNames = "lease")
     public List<LeaseAd> findLeaseRoomsByModel(LeaseRoomsDto leaseRoomsDto) {
         List<LeaseAd> result;
         LeaseFilterDto filter = leaseRoomsDto.getFilter();

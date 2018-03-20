@@ -25,8 +25,8 @@ public class RedirectErrorPage {
             return result;
         } catch (Throwable t) {
             log.error(t.toString());
-            RedirectAttributes redirectAttributes = (RedirectAttributes)joinPoint.getArgs()[0];
-            if(redirectAttributes != null) {
+            RedirectAttributes redirectAttributes = (RedirectAttributes) joinPoint.getArgs()[0];
+            if (redirectAttributes != null) {
                 redirectAttributes.addFlashAttribute("error", t.toString());
             }
             return "redirect:/error";

@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(by.itacademy.entity.User user){
+    public void save(by.itacademy.entity.User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
         by.itacademy.entity.User user = userRepository.findOne(item.getId());
         Role r = roleRepository.findByRole(item.getRoles().stream().findFirst().get().getRole());
         user.getRoles().add(r);
-                //roleRepository.findByRole(item.getRoles().stream().findFirst().toString()));
         userRepository.save(user);
     }
 

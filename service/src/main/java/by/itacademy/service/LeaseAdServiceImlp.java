@@ -23,7 +23,7 @@ public class LeaseAdServiceImlp implements LeaseAdService {
     public LeaseAdDto makeModelForLeaseAdPage(LeaseAdDto leaseAdDto) {
         LeaseAdDto result = new LeaseAdDto();
         Long countItems = leaseAdRepository.countLeaseAdByModel(leaseAdDto);
-        if(countItems > 0) {
+        if (countItems > 0) {
             leaseAdDto.setCount(countItems);
             leaseAdDto.setPaging(
                     new PagingInfo(

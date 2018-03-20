@@ -3,7 +3,6 @@ package by.itacademy.controllers;
 import by.itacademy.aspects.ErrorCatcher;
 import by.itacademy.dto.RoomDto;
 import by.itacademy.dto.RoomUpdateDto;
-import by.itacademy.dto.UserDetailDto;
 import by.itacademy.entity.Room;
 import by.itacademy.entity.User;
 import by.itacademy.service.RoomService;
@@ -36,9 +35,6 @@ public class OwnerController {
     @GetMapping("/owner/rooms")
     public String showRoomsPage(RedirectAttributes attr, Model model, RoomDto roomDto) {
         roomDto.getUser().setEmail(getAuthenticationUserEmail());
-        //roomDto.setUser(getAuthenticationUser());
-        //roomDto.getUser().setEmail("manager@mail.com");// альтернатива коду выше
-
         RoomDto dto = roomService.makeModelForRoomsPage(roomDto);
         model.addAttribute("roomDto", dto);
         return "owner/rooms";
@@ -49,17 +45,6 @@ public class OwnerController {
     public String createRoom(RedirectAttributes attr, Room room) {
         room.setUser(new User());
         room.getUser().setEmail(getAuthenticationUserEmail());
-//        User u1 = (User)SecurityContextHolder
-//                .getContext()
-//                .getAuthentication()
-//                .getPrincipal();
-//        room.getUser()
-//                .setEmail(SecurityContextHolder
-//                        .getContext()
-//                        .getAuthentication()
-//                        .getPrincipal().toString());
-        //room.setUser(new User());                       // альтернатива
-        //room.getUser().setEmail("manager@mail.com");    // коду выше
         roomService.save(room);
         return "redirect:/owner/rooms";
     }
@@ -67,15 +52,8 @@ public class OwnerController {
     @ErrorCatcher
     @PostMapping("/owner/rooms/edit")
     public String updateRoom(RedirectAttributes attr, RoomUpdateDto dto) {
-//        String u1 = SecurityContextHolder
-//                .getContext()
-//                .getAuthentication()
-//                .getDetails().toString();
         dto.getRoom().setUser(new User());
         dto.getRoom().getUser().setEmail(getAuthenticationUserEmail());
-        //dto.getRoom().setUser(getAuthenticationUser());
-        //dto.getRoom().setUser(new User());                       // альтернатива
-        //dto.getRoom().getUser().setEmail("manager@mail.com");    // коду выше
         roomService.update(dto);
         return "redirect:/owner/rooms";
     }
@@ -103,7 +81,7 @@ public class OwnerController {
 
     private String getAuthenticationUserEmail() {
         org.springframework.security.core.userdetails.User user
-                = (org.springframework.security.core.userdetails.User)SecurityContextHolder
+                = (org.springframework.security.core.userdetails.User) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();

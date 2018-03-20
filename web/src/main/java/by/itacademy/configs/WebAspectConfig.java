@@ -1,6 +1,5 @@
 package by.itacademy.configs;
 
-import by.itacademy.aspects.MyLogger;
 import by.itacademy.aspects.RedirectErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

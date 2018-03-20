@@ -24,7 +24,7 @@ public class LeaseRoomsServiceImpl implements LeaseRoomsService {
     public LeaseRoomsDto makeModelForLeaseRoomsPage(LeaseRoomsDto leaseRoomsDto) {
         LeaseRoomsDto result = new LeaseRoomsDto();
         Long countItems = leaseAdRepository.countLeaseRoomsByModel(leaseRoomsDto);
-        if(countItems > 0) {
+        if (countItems > 0) {
             leaseRoomsDto.setCount(countItems);
             leaseRoomsDto.setPaging(
                     new PagingInfo(

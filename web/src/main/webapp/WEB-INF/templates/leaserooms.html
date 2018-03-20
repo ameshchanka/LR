@@ -32,7 +32,7 @@
                                 <span class="input-group-addon">Count Items on the Page</span>
                                 <select id="SELECT_ITEMSPERPAGE_DEFAULT" name="paging.itemsPerPage"
                                         class="form-control">
-                                    <option th:each="item : ${leaseRoomsDto.paging.SELECT_ITEMSPERPAGE_DEFAULT}"
+                                    <option th:each="item : ${leaseRoomsDto.paging.getSelectItemsperpageDefault}"
                                             th:value="${item}" th:text="${item}"
                                             th:selected="${ leaseRoomsDto.paging.itemsPerPage == item}">
                                     </option>
