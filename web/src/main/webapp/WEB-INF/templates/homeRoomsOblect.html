@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Lease Rooms</title>
+</head>
+<body>
+<div class="container" layout:fragment="content" th:remove="tag">
+    <div class="tab-content">
+        <h3 th:text="${roomsObject.name}">
+        </h3>
+        <p th:text="${roomsObject.address.street.city.name + ', ' + roomsObject.address.street.city.country.name}">
+        </p>
+        <p th:text="${roomsObject.roomsObjectInformation.description}">
+        </p>
+        <br />
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Room Name</th>
+                <th>Square</th>
+                <th>owner</th>
+                <th>phone</th>
+            </tr>
+            </thead>
+            <th:block th:each="room:${roomDto.rooms}">
+                <tr>
+                    <td th:text="${room.name}"></td>
+                    <td th:text="${room.square}"></td>
+                    <td th:text="${room.user.email}"></td>
+                    <td th:text="${room.user.contact.phone}"></td>
+                </tr>
+            </th:block>
+        </table>
+        </p>
+    </div>
+</div>
+</body>
+</html>
+

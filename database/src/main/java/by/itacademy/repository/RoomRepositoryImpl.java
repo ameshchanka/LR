@@ -32,4 +32,34 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                 .getResults();
         return result;
     }
+
+    @Override
+    public List<Room> findByRoomsObject(Long id) {
+//        List<Room> result;
+//        JPAQuery<Room> query = new JPAQuery<Room>(entityManager);
+//        QRoom room = QRoom.room;
+//
+//        query.select(room)
+//                .from(room)
+//                .where(room.roomsObject.id.eq(id));
+//        result = query
+//                .fetchResults()
+//                .getResults();
+        List<Room> result;
+        JPAQuery<Room> query = new JPAQuery<Room>(entityManager);
+        QRoom room = QRoom.room;
+        QLeaseAd leaseAd = QLeaseAd.leaseAd;
+
+        query.select(room)
+                .from(room)
+                .innerJoin(room.leaseAds, leaseAd)
+                .fetchJoin()
+                .where(leaseAd.dateStartLease.isNull()
+                        .and(leaseAd.dateStopLease.isNull()))
+                .where(room.roomsObject.id.eq(id));
+        result = query
+                .fetchResults()
+                .getResults();
+        return result;
+    }
 }

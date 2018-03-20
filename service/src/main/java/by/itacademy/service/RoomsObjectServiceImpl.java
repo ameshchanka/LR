@@ -1,21 +1,29 @@
 package by.itacademy.service;
 
+import by.itacademy.dto.RoomDto;
 import by.itacademy.dto.RoomsObjectDto;
 import by.itacademy.entity.RoomsObject;
 import by.itacademy.repository.AddressRepository;
-import by.itacademy.repository.RoomsObjectInformationRepository;
+import by.itacademy.repository.RoomRepository;
 import by.itacademy.repository.RoomsObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
 
 @Service
 @Transactional
 public class RoomsObjectServiceImpl implements RoomsObjectService {
 
     private RoomsObjectRepository roomsObjectRepository;
-    private RoomsObjectInformationRepository roomsObjectInformationRepository;
+    private RoomRepository roomRepository;
     private AddressRepository addressRepository;
+
+    @Autowired
+    public void setRoomRepository(RoomRepository roomRepository) {
+        this.roomRepository = roomRepository;
+    }
 
     @Autowired
     public void setRoomsObjectRepository(RoomsObjectRepository roomsObjectRepository) {
@@ -27,16 +35,28 @@ public class RoomsObjectServiceImpl implements RoomsObjectService {
         this.addressRepository = addressRepository;
     }
 
-    @Autowired
-    public void setRoomsObjectInformationRepository(RoomsObjectInformationRepository roomsObjectInformationRepository) {
-        this.roomsObjectInformationRepository = roomsObjectInformationRepository;
-    }
-
     @Override
     public RoomsObjectDto makeModelForRoomsObjectPage() {
         RoomsObjectDto dto = new RoomsObjectDto();
         dto.setRoomsObjects(roomsObjectRepository.findAll());
         dto.setAddresses(addressRepository.findAll());
+        return dto;
+    }
+
+    @Override
+    public RoomsObjectDto makeModelForIndexPage() {
+        RoomsObjectDto dto = new RoomsObjectDto();
+        dto.setRoomsObjects(roomsObjectRepository.findAllWithRooms());
+        for (RoomsObject obj : dto.getRoomsObjects()) {
+            obj.setRooms(new HashSet<>(roomRepository.findByRoomsObject(obj.getId())));
+        }
+        return dto;
+    }
+
+    @Override
+    public RoomDto makeModelForHomeRoomsOblectPage(Long id) {
+        RoomDto dto = new RoomDto();
+        dto.setRooms(roomRepository.findByRoomsObject(id));
         return dto;
     }
 

@@ -51,6 +51,7 @@ public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
         }
 
         result = query
+                .where(leaseAd.dateStartLease.isNull().and(leaseAd.dateStopLease.isNull()))
                 .offset(offsetNumber)
                 .limit(leaseRoomsDto.getPaging().getItemsPerPage())
                 .fetchResults()
@@ -89,7 +90,9 @@ public class LeaseAdRepositoryImpl implements LeaseAdRepositoryCustom {
                     .and(leaseAd.price.divide(room.square).lt(filter.getPm2Max())));
         }
 
-        result = query.fetchOne();
+        result = query
+                .where(leaseAd.dateStartLease.isNull().and(leaseAd.dateStopLease.isNull()))
+                .fetchOne();
         return result;
     }
 
